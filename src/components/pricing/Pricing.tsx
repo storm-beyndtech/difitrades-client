@@ -330,7 +330,11 @@ export default function Pricing() {
         </div>
       )}
       {showModal && (
-        <TradeModal tradeType={tradeType} toggleModal={toggleModal} interestRate={interest} />
+        <TradeModal
+          tradeType={tradeType}
+          toggleModal={toggleModal}
+          interestRate={interest}
+        />
       )}
     </section>
   );

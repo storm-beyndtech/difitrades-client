@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import CheckList from './CheckList';
 
 type SecData = {
@@ -46,9 +47,9 @@ export default function LightSection({ secData }: { secData: SecData }) {
             </ul>
           )}
           {!secData.pdf && (
-            <a href="#" className="primaryBtn">
+            <Link to="/copytrade" className="primaryBtn">
               Explore Copy Trading <span className="ml-3">&rarr;</span>
-            </a>
+            </Link>
           )}
           {secData.pdf && (
             <a

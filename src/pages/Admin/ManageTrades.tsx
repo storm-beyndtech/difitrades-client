@@ -58,7 +58,7 @@ export default function ManageTrades() {
   return (
     <>
       <div className="relative overflow-x-auto rounded-[6px]">
-        <div className="flex items-center space-x-3 rtl:space-x-reverse mb-4">
+        {/* <div className="flex items-center space-x-3 rtl:space-x-reverse mb-4">
           <button
             onClick={() => toggleModal(true)}
             type="submit"
@@ -66,7 +66,7 @@ export default function ManageTrades() {
           >
             Create new trade
           </button>
-        </div>
+        </div> */}
         {error && <p className={s.formError}>{error}</p>}
         {success && <p className={s.formSuccess}>{success}</p>}
 

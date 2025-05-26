@@ -1,5 +1,5 @@
-import CheckList from "./CheckList"
-
+import { Link } from 'react-router-dom';
+import CheckList from './CheckList';
 
 export default function LightSectionV3() {
   return (
@@ -7,7 +7,11 @@ export default function LightSectionV3() {
       <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div className="md:grid md:grid-cols-2 md:items-center md:gap-12 xl:gap-32">
           <div>
-            <img className="rounded-xl" src="https://images.unsplash.com/photo-1579225663317-c0251b4369bc?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image Description" />
+            <img
+              className="rounded-xl"
+              src="https://images.unsplash.com/photo-1579225663317-c0251b4369bc?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Image Description"
+            />
           </div>
 
           <div className="mt-5 sm:mt-10 lg:mt-0">
@@ -17,13 +21,23 @@ export default function LightSectionV3() {
                   Copy The Trades Of Other Traders
                 </h2>
                 <p className="text-gray-500">
-                  Diversify your trading and try following the strategies of our Lead traders. Mirror their trading activity. They trade, you trade!
-                  Their potential becomes yours too!
+                  Diversify your trading and try following the strategies of our
+                  Lead traders. Mirror their trading activity. They trade, you
+                  trade! Their potential becomes yours too!
                 </p>
                 <p className="text-gray-500 flex flex-col gap-2">
-                  <span>Find a trader you like and make sure to check if the risk score suits you.</span>
-                  <span>Choose if you want to invest relative or a fixed amount per each trade.</span>
-                  <span>Begin mirroring the strategies of other traders automatically in real-time.</span>
+                  <span>
+                    Find a trader you like and make sure to check if the risk
+                    score suits you.
+                  </span>
+                  <span>
+                    Choose if you want to invest relative or a fixed amount per
+                    each trade.
+                  </span>
+                  <span>
+                    Begin mirroring the strategies of other traders
+                    automatically in real-time.
+                  </span>
                 </p>
               </div>
 
@@ -32,7 +46,7 @@ export default function LightSectionV3() {
                   <CheckList />
 
                   <span className="text-sm sm:text-base text-gray-500">
-                  Pick a <span className="font-bold">trader</span>
+                    Pick a <span className="font-bold">trader</span>
                   </span>
                 </li>
 
@@ -53,11 +67,13 @@ export default function LightSectionV3() {
                 </li>
               </ul>
 
-              <button className="primaryBtn" >Try copy trading now</button>
+              <Link to="/copytrade">
+                <button className="primaryBtn">Try copy trading now</button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

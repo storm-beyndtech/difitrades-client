@@ -1,8 +1,11 @@
-const listItems = ['Raw spreads means really from 0.0 pips*', 'Our diverse and proprietary liquidity mix keeps spreads tight 24/5']
-import CheckList from "./CheckList";
+const listItems = [
+  'Raw spreads means really from 0.0 pips*',
+  'Our diverse and proprietary liquidity mix keeps spreads tight 24/5',
+];
+import { Link } from 'react-router-dom';
+import CheckList from './CheckList';
 
 const SpreadSteps = () => {
-
   return (
     <section className="px-3 py-28">
       <div className="max-ctn flex flex-wrap gap-x-10 gap-y-20 justify-between py-12">
@@ -12,18 +15,21 @@ const SpreadSteps = () => {
           </h3>
           <ul className="list mb-5 text-[1rem]">
             {listItems.map((item, i) => (
-            <li key={i} className="flex space-x-3 mb-4">
-              <CheckList />
+              <li key={i} className="flex space-x-3 mb-4">
+                <CheckList />
 
-              <span className="text-sm text-gray-900 font-semibold">
-                {item}
-              </span>
-            </li>
+                <span className="text-sm text-gray-900 font-semibold">
+                  {item}
+                </span>
+              </li>
             ))}
           </ul>
-          <a href="#" className="primaryBtn !bg-gray-200 !text-black" >
+          <Link
+            to="/more/spreads"
+            className="primaryBtn !bg-gray-200 !text-black"
+          >
             Pricing Overview <span className="ml-3">&rarr;</span>
-          </a>
+          </Link>
         </div>
 
         <div className="bg-gray-100 rounded-3xl px-5 py-10 w-full max-w-[580px]">
@@ -55,9 +61,12 @@ const SpreadSteps = () => {
               </span>
             </li>
           </ul>
-          <a href="#" className="primaryBtn !bg-gray-200 !text-black" >
+          <Link
+            to="/more/pricing"
+            className="primaryBtn !bg-gray-200 !text-black"
+          >
             Get your Free VPS <span className="ml-3">&rarr;</span>
-          </a>
+          </Link>
         </div>
 
         <div className="bg-gray-100 rounded-3xl px-5 py-10 w-full max-w-[580px]">
@@ -89,12 +98,14 @@ const SpreadSteps = () => {
               </span>
             </li>
           </ul>
-          <a href="#" className="primaryBtn !bg-gray-200 !text-black" >
+          <Link
+            to="/more/pricing"
+            className="primaryBtn !bg-gray-200 !text-black"
+          >
             Raw Pricing Benefits <span className="ml-3">&rarr;</span>
-          </a>
+          </Link>
         </div>
       </div>
-
     </section>
   );
 };

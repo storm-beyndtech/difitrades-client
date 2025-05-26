@@ -17,7 +17,7 @@ export default function TradeModal({tradeType, toggleModal, interestRate}:any) {
     setError('')
 
     if(tradeType === 'standard') {
-      if(amount < 500) return setError("The minimum trade amount is $500")
+      if(amount < 100) return setError("The minimum trade amount is $100")
     }
 
     if(tradeType === 'advanced') {
