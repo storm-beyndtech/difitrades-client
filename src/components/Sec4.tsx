@@ -51,7 +51,7 @@ const marketData: MarketDataType = {
       ticker: 'META',
       change: '+0.37%',
       color: '#4ade80',
-      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Meta_Platforms_Inc._logo.svg/2560px-Meta_Platforms_Inc._logo.svg.png',
+      logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Meta-Logo.png/1200px-Meta-Logo.png', // New Meta logo
       price: '$304.75',
       data: generateChartData(304.75, 3, 1.5),
     },
@@ -292,7 +292,7 @@ const DarkMarketSection: React.FC = () => {
   };
 
   return (
-    <section className="relative bg-slate-900 text-white overflow-hidden min-h-screen py-16">
+    <section className="relative bg-slate-950 text-white overflow-hidden min-h-fit py-16">
       {/* Lighter glassmorphism background elements */}
       <div className="absolute top-40 -left-40 w-60 h-60 bg-blue-500/15 blur-3xl rounded-full" />
       <div className="absolute bottom-20 -right-40 w-80 h-80 bg-cyan-500/12 blur-3xl rounded-full" />
@@ -302,23 +302,16 @@ const DarkMarketSection: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            <span className="text-transparent bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text">
+            <span className="text-transparent bg-blue-500 bg-clip-text">
               Trade Global Markets
             </span>
             <span className="block text-white">at the Lowest Costs!</span>
           </h2>
-          <p className="text-lg text-slate-400 max-w-3xl mx-auto">
-            Gain fast and easy access to 1000+ of the most liquid Currencies,
-            Indices, Commodities, Share CFDs, ETFs and more with{' '}
-            <span className="font-bold text-blue-400">
-              PRIME ECN spreads from 0.0 pips!
-            </span>
-          </p>
         </div>
 
         {/* Tab Navigation with Enhanced Glassmorphism */}
         <div className="relative mb-10">
-          <div className="flex justify-center space-x-1 bg-slate-800/50 backdrop-blur-2xl border border-slate-700/60 rounded-2xl p-2 max-w-fit mx-auto shadow-xl">
+          <div className="flex justify-center space-x-1 bg-slate-800/40 backdrop-blur-2xl border border-slate-700/60 rounded-2xl p-2 max-w-fit mx-auto shadow-xl">
             {marketTabs.map((tab, index) => (
               <button
                 key={tab}
@@ -339,8 +332,8 @@ const DarkMarketSection: React.FC = () => {
         {/* Market Data Container with Lighter Glassmorphism */}
         <div className="relative">
           {/* Multi-layer glassmorphism background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-slate-900/70 backdrop-blur-3xl border border-slate-700/50 rounded-2xl shadow-xl"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 rounded-2xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-950/5 to-slate-950/50 backdrop-blur-3xl border border-slate-700/50 rounded-2xl shadow-xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 to-cyan-400/5 rounded-2xl"></div>
 
           {/* Content with transition */}
           <div className="relative p-6">
@@ -349,11 +342,11 @@ const DarkMarketSection: React.FC = () => {
                 (item, i) => (
                   <div
                     key={`${activeMarket}-${i}`}
-                    className="group flex justify-between items-center p-4 rounded-xl bg-slate-800/40 backdrop-blur-sm border border-slate-700/40 hover:border-slate-600/60 hover:bg-slate-700/40 transition-all duration-300 shadow-md"
+                    className="group flex justify-between items-center p-4 rounded-xl bg-slate-900/40 backdrop-blur-sm border border-slate-700/40 hover:border-slate-600/60 hover:bg-slate-700/40 transition-all duration-300 shadow-md"
                   >
                     <div className="flex items-center space-x-4">
                       {/* Asset Icon with image or symbol fallback */}
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-700/60 to-slate-800/80 backdrop-blur-sm border border-slate-600/40 flex items-center justify-center shadow-md overflow-hidden">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-800/30 to-slate-900/60 backdrop-blur-sm border border-slate-600/40 flex items-center justify-center shadow-md overflow-hidden">
                         <AssetIcon item={item} />
                       </div>
 
@@ -385,7 +378,10 @@ const DarkMarketSection: React.FC = () => {
                         >
                           <defs>
                             <linearGradient
-                              id={`gradient-${i}`}
+                              id={`gradient-${activeMarket.replace(
+                                /\s+/g,
+                                '',
+                              )}-${i}`} // Remove spaces from activeMarket
                               x1="0%"
                               y1="0%"
                               x2="0%"
@@ -406,7 +402,10 @@ const DarkMarketSection: React.FC = () => {
 
                           {/* Area fill */}
                           <polygon
-                            fill={`url(#gradient-${i})`}
+                            fill={`url(#gradient-${activeMarket.replace(
+                              /\s+/g,
+                              '',
+                            )}-${i})`}
                             points={`0,40 ${generateSparklinePoints(
                               item.data,
                             )} 80,40`}
@@ -418,7 +417,9 @@ const DarkMarketSection: React.FC = () => {
                             stroke={item.color}
                             strokeWidth="2"
                             points={generateSparklinePoints(item.data)}
-                            className="drop-shadow-sm"
+                            style={{
+                              filter: `drop-shadow(0 1px 2px ${item.color}40)`,
+                            }}
                           />
                         </svg>
                       </div>
