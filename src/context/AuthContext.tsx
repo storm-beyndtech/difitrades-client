@@ -3,14 +3,16 @@ import { useLocation } from 'react-router-dom';
 
 const AuthContext = createContext<any>(null);
 
-export const AuthProvider = ({ children }:any) => {
+export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState("");
   const [fetching, setFetching] = useState(true);
   const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
   const location = useLocation();
 
-  const login = (userData:any) => {
+  const login = (userData: any) => {
     setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
@@ -34,44 +36,54 @@ export const AuthProvider = ({ children }:any) => {
       } else {
         throw new Error(data.message);
       }
-    } catch (error:any) {
-      console.error(error.message);
+    } catch (error: any) {
+      console.error('Fetch error:', error.message);
     } finally {
       clearTimeout(timeoutId);
-      setTimeout(() => { 
-        setFetching(false);
-      }, 5000);
+      setFetching(false);
     }
   };
 
   useEffect(() => {
     setFetching(true);
     const storageData = localStorage.getItem('user');
-  
+
     if (storageData) {
-      const user = JSON.parse(storageData);
-      fetchUser(user._id);
-    } else {
-      setTimeout(() => { 
+      try {
+        const user = JSON.parse(storageData);
+        if (user && user._id) {
+          fetchUser(user._id);
+        } else {
+          setUser(null);
+          setFetching(false);
+        }
+      } catch (error) {
+        console.error('Parse error:', error);
         setUser(null);
         setFetching(false);
-      }, 5000);
+      }
+    } else {
+      setUser(null);
+      setFetching(false);
     }
   }, []);
 
   useEffect(() => {
     const storageData = localStorage.getItem('user');
     if (storageData) {
-      const user = JSON.parse(storageData);
-
-      if (location.pathname.includes('/dashboard')) {
-        fetchUser(user._id);
+      try {
+        const user = JSON.parse(storageData);
+        if (user && location.pathname.includes('/dashboard')) {
+          fetchUser(user._id);
+        }
+      } catch (error) {
+        console.error('Parse error on pathname change:', error);
       }
     }
   }, [location.pathname]);
 
   return (
-    <AuthContext.Provider value={{ user, fetching, login, logout }}>
+    <AuthContext.Provider value={{ user, fetching, fetchUser, login, logout, setTheme, theme }}>
       {children}
     </AuthContext.Provider>
   );

@@ -66,7 +66,7 @@ const AutoCount = () => {
   return (
     <section id='counterSection' className='flex flex-wrap items-center justify-center gap-20 py-20 sm:px-6 sm:py-24 lg:px-8 bg-gray-50'>
       <div className="flex flex-col items-center w-full max-w-[200px]">
-        <p className="text-sm mb-5 text-gray-500">Difitrades Clients</p>
+        <p className="text-sm mb-5 text-gray-500">Ameritrades Clients</p>
         <h2 className="hd-text text-gray-800 font-[4rem]">
           {totalClients}
           <span className='text-3xl mb-6 text-gray-500'>+</span>

@@ -99,7 +99,7 @@ const DropdownUser = () => {
 
           {user?.isAdmin &&
             <Link
-              to="/admin/users/active"
+              to="/admin/active-users"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <FiUser className="text-xl"/>
@@ -110,7 +110,7 @@ const DropdownUser = () => {
 
           <li>
             <Link
-              to={`${user?.isAdmin ? "admin/settings" : "/dashboard/settings"}`}
+              to={`${user?.isAdmin ? "/admin/settings" : "/dashboard/settings"}`}
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
             >
               <IoSettingsOutline className="text-2xl" />
@@ -118,7 +118,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button onClick={() => logout()} className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button onClick={logout} className="flex items-center gap-3.5 py-4 px-6 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <CiLogout className='text-xl'/>
           Log Out
         </button>

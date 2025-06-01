@@ -1,39 +1,68 @@
-import { Link } from 'react-router-dom';
-import copyTradeImg from '../assets/copy-trade3.png';
-import phoneBg from '../assets/phoneBg.png';
-import ChartSlide from './ChartSlide';
+type HeroProps = {
+  title: string;
+  subtitle: string;
+  textColor?: string;
+  accentColor?: string;
+  backgroundUrl?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  badgeText?: string;
+};
 
-export default function Hero2() {
+export default function Hero2({
+  title,
+  subtitle,
+  textColor = 'text-gray-200',
+  backgroundUrl = 'https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg',
+  badgeText = 'Join the community',
+}: HeroProps) {
   return (
-    <section className="relative bg-no-repeat bg-center" id="heroSection">
-      <div className="max-ctn px-5 pt-32 flex flex-wrap items-center gap-7 sm:gap-20">
-        <div className="w-full max-w-lg">
-          <h2 className="text-white text-[5rem] max-md:text-[2.8rem] font-bold mb-6">
-            Copy <span className="text-blue-600">Trade</span>
-          </h2>
-          <p className="text-[#636262] my-5 text-lg">
-            Choose the trader you'd like to Autocopy, deposit the amount of
-            funds you'd like to allocate on the platform and Autocopy starts
-            when approved.
-          </p>
-          <p className="text-[#636262] my-5 text-lg">
-            You just started mirroring the Lead Trader's positions automatically
-            and in real time!
-          </p>
-          <Link to="/login" className="primaryBtn mb-6">
-            Get Started <span className="ml-3">&rarr;</span>
-          </Link>
-        </div>
+    <section className="bg-gray-900 pt-20">
+      <div
+        className="relative overflow-hidden before:absolute before:top-0 before:start-1/2 before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:z-[1] before:transform before:-translate-x-1/2"
+        style={{ backgroundImage: `url('${backgroundUrl}')` }}
+      >
+        <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10 relative z-10">
+          <div className="flex justify-center">
+            <a
+              className="inline-flex items-center gap-x-2 border text-sm p-1 ps-3 rounded-full transition hover:border-gray-600 bg-gray-800 border-gray-700 text-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-600"
+              href="#"
+            >
+              {badgeText}
+              <span className="py-1.5 px-2.5 inline-flex justify-center items-center gap-x-2 rounded-full font-semibold text-sm text-gray-400 bg-gray-700">
+                <svg
+                  className="flex-shrink-0 w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </span>
+            </a>
+          </div>
 
-        <div
-          className="w-full max-w-md bg-cover bg-no-repeat bg-center max-sm:hidden"
-          style={{ backgroundImage: `url(${phoneBg})` }}
-        >
-          <img src={copyTradeImg} alt="copy trade" className="h-full w-auto" />
+          <div className="mt-5 max-w-2xl text-center mx-auto">
+            <h1 className={`block font-bold text-4xl ${textColor}`}>{title}</h1>
+          </div>
+
+          <div className="mt-5 max-w-3xl text-center mx-auto">
+            <p
+              className={`text-lg ${
+                textColor === 'text-gray-200' ? 'text-gray-400' : textColor
+              }`}
+            >
+              {subtitle}
+            </p>
+          </div>
         </div>
       </div>
-
-      <ChartSlide />
     </section>
   );
 }

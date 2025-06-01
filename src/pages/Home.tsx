@@ -1,49 +1,38 @@
-import AutoCount from "@/components/AutoCount";
-import FAQ from "@/components/FAQ";
-import Features from "@/components/Features";
-import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import LightSection from "@/components/LightSection";
-import LiquiditySlides from "@/components/liquiditySlides/LiquiditySlides";
-import Navbar from "@/components/Navbar";
-import SpreadSteps from "@/components/SpreadSteps";
-import CryptoCarousel from "@/components/cryptoCarousel/CryptoCarousel";
-import Pricing from "@/components/pricing/Pricing";
-import { testimonies, HomeSec1, HomeSec2, HomeSec3, HomeSec4, aboutSec2 } from "@/lib/utils";
-import LightSectionV2 from "@/components/LightSectionV2";
-import Testimonials from "@/components/Testimonials";
-import DarkSection from "@/components/DarkSection";
-import StockSlide from "@/components/stockSlide/StockSlide";
-import StockHeatmap from "@/components/StockHeatmap";
-import WideCard from "@/components/WideCard";
-import CardOne from "@/components/CardOne";
+import { FeaturesSection } from '@/components/Features';
+import Footer from '@/components/Footer';
+import Hero from '@/components/Hero';
+import NavBar from '@/components/Navbar';
+import Reviews from '@/components/Reviews';
+import Sec10 from '@/components/Sec10';
+import Sec2 from '@/components/Sec2';
+import Sec3 from '@/components/Sec3';
+import TabbedSections from '@/components/Sec4';
+import Sec5 from '@/components/Sec5';
+import Sec7 from '@/components/Sec7';
+import Sec8 from '@/components/Sec8';
+import Sec9 from '@/components/Sec9';
+import SpreadSteps from '@/components/SpreadSteps';
+import StepsSection from '@/components/StepsSection';
+import { testimonies } from '@/lib/utils';
 
 export default function Home() {
   return (
-    <>
-      <Navbar />  
+    <main className="min-h-screen bg-bodydark">
+      <NavBar />
       <Hero />
-      <LightSection secData={aboutSec2}/>
-      <HowItWorksSection />
-      <CardOne />
-      <LightSectionV2 secData={HomeSec4}/>
-      <AutoCount />
-      <Features />
-      <StockSlide />
-      <LightSectionV2 secData={HomeSec1}/>
-      <CryptoCarousel />
-      <DarkSection />
-      <Pricing />
-      <LightSection secData={HomeSec2}/>
-      <StockHeatmap />
+      <FeaturesSection />
+      <Sec2 />
+      <Sec9 />
+      <Sec5 />
       <SpreadSteps />
-      <Testimonials data={testimonies}/>
-      <WideCard />
-      <LightSection secData={HomeSec3}/>
-      <LiquiditySlides />
-      <FAQ />
+      <TabbedSections />
+      <Sec7 />
+      <Reviews data={testimonies} />
+      <Sec8 />
+      <Sec3 />
+      <Sec10 />
+      <StepsSection />
       <Footer />
-    </>
-  )
+    </main>
+  );
 }

@@ -1,136 +1,166 @@
-import { AiFillGithub } from 'react-icons/ai';
-import { RiMailFill } from "react-icons/ri";
+import { Button } from '@/components/ui/button';
+import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.svg'
-  
-  export default function Footer() {
-    return (
-      <section className="bg-black text-white">
-        <div className="flex w-full flex-col px-3 py-20 max-ctn">
-          <div className="flex flex-col lg:flex-row lg:justify-between">
-            <div className="lg:mr-20">
-              <Link to="#" className="mb-12 inline-block max-w-full font-bold text-[#1353fe]">
-                <img className="h-9 w-auto" src={logo} alt="logo" />
+
+export default function Footer() {
+  return (
+    <footer className="bg-trading-dark-blue pt-16 pb-8">
+      <div className="container px-4 md:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="space-y-5">
+            <Link to="/">
+              <img src={logo} alt="logo" className="w-40" />
+            </Link>
+            <p className="text-trading-gray mb-6 max-w-60">
+              The most advanced AI-powered trading platform for both beginners
+              and professionals.
+            </p>
+            <div className="flex space-x-4">
+              <Link to="#" className="text-trading-gray hover:text-white">
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                </svg>
               </Link>
-              <div className="flex flex-col">
-                <form action="" className="mb-10 mt-5 max-w-[421px]">
-                  <div className="relative">
-                    <label htmlFor="email" className="font-inter font-medium">
-                      SUBSCRIBE TO NEWSLETTER
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="Enter your email"
-                      name="email"
-                      className="font-inter relative mt-4 w-full rounded-md border border-black bg-[#0e0e0e] px-6 py-4 text-base"
-                    />
-                    <button type="submit" className="absolute right-[15px] top-[55px]">
-                    <RiMailFill size={30} color={'#ffffff4e'}/>
-                    </button>
-                  </div>
-                </form>
-                <div>
-                  <h3 className="font-inter mb-4 mt-8 font-medium">
-                    EMAIL US
-                  </h3>
-                  <p className="font-inter text-base">support@difitrades.com</p>
-                </div>
-              </div>
-            </div>
-  
-            <div className="mt-7 max-w-[700px] grow lg:flex lg:flex-row">
-              {/* Other content */}
-              <div className="flex grow flex-row flex-wrap lg:flex-nowrap lg:items-start">
-                {/* PRODUCTS */}
-                <div className="my-5 mr-8 flex max-w-[500px] grow basis-[100px] flex-col space-y-5 lg:my-0">
-                  <h2 className="font-inter font-medium">PRODUCTS</h2>
-                  <Link to="/products/forex" className="font-inter font-light text-gray-500">
-                    Forex CFDs
-                  </Link>
-                  <Link to="/products/commodities" className="font-inter font-light text-gray-500">
-                    Commodities CFDs
-                  </Link>
-                  <Link to="/products/indices" className="font-inter font-light text-gray-500">
-                    Indices CFDs
-                  </Link>
-                  <Link to="/products/bonds" className="font-inter font-light text-gray-500">
-                    Bonds CFDs
-                  </Link>
-                  <Link to="/products/crypto" className="font-inter font-light text-gray-500">
-                    Crypto CFDs
-                  </Link>
-                  <Link to="/products/stocks" className="font-inter font-light text-gray-500">
-                    Stocks CFDs
-                  </Link>
-                  <Link to="/products/futures" className="font-inter font-light text-gray-500">
-                    Futures CFDs
-                  </Link>
-                </div>
-  
-                {/* SUPPORT */}
-                <div className="my-5 mr-8 flex max-w-[500px] grow basis-[100px] flex-col space-y-5 lg:my-0">
-                  <h2 className="font-inter font-medium">SUPPORT</h2>
-                  <Link to="/more/pricing" className="font-inter font-light text-gray-500">
-                    Pricing
-                  </Link>
-                  <Link to="/more/conditions" className="font-inter font-light text-gray-500">
-                    Trading Conditions
-                  </Link>
-                  <Link to="/more/spreads" className="font-inter font-light text-gray-500">
-                    Spreads
-                  </Link>
-                  <Link to="/more/hours" className="font-inter font-light text-gray-500">
-                    Trading Hours
-                  </Link>
-                  <Link to="/more/swap" className="font-inter font-light text-gray-500">
-                    Swap Rates
-                  </Link>
-                </div>
-  
-                {/* COMPANY */}
-                <div className="my-5 mr-8 flex max-w-[500px] grow basis-[100px] flex-col space-y-5 lg:my-0 lg:mr-0">
-                  <h2 className="font-inter font-medium">COMPANY</h2>
-                  <Link to="/company/why" className="font-inter font-light text-gray-500">
-                    Why Difitrades
-                  </Link>
-                  <Link to="/company/regulations" className="font-inter font-light text-gray-500">
-                    Regulations
-                  </Link>
-                  <Link to="/company/traders" className="font-inter font-light text-gray-500">
-                    Expert Traders
-                  </Link>
-                  <Link to="/company/label" className="font-inter font-light text-gray-500">
-                    White Label
-                  </Link>
-                  <Link to="/company/insurance" className="font-inter font-light text-gray-500">
-                    Insurance
-                  </Link>
-                  <Link to="/company/servers" className="font-inter font-light text-gray-500">
-                    Servers
-                  </Link>
-                  <Link to="/company/tools" className="font-inter font-light text-gray-500">
-                    MT4 Tools
-                  </Link>
-                </div>
-              </div>
+              <Link to="#" className="text-trading-gray hover:text-white">
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                </svg>
+              </Link>
+              <Link to="#" className="text-trading-gray hover:text-white">
+                <svg
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </Link>
             </div>
           </div>
-  
-          <div className="mt-20 lg:flex lg:flex-row-reverse lg:justify-between">
-            <div className="mb-8 mt-6 flex flex-row lg:mb-0 lg:mt-0 items-center">
-              <Link to="/" className="mr-4 transition hover:text-gray-400">
-              <RiMailFill size={26}/>
-              </Link>
-              <Link to="/" className="mx-4 transition hover:text-gray-400">
-                <AiFillGithub size={24} />
-              </Link>
-            </div>
-            <p className="font-inter text-sm text-gray-500 lg:mt-0">
-              © Copyright 2024. All rights reserved.
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Products</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/commodities"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Trading Platform
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/login"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Mobile App
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="text-trading-gray hover:text-white">
+                  AI Assistant
+                </Link>
+              </li>
+              <li>
+                <Link to="#" className="text-trading-gray hover:text-white">
+                  Data Analytics
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Company</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/about"
+                  className="text-trading-gray hover:text-white"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/careers"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Careers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Press
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className="text-trading-gray hover:text-white"
+                >
+                  Contact
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Subscribe</h3>
+            <p className="text-trading-gray mb-4">
+              Stay updated with the latest trading insights and platform news.
             </p>
+            <div className="flex">
+              <input
+                type="email"
+                placeholder="Your email"
+                className="bg-bodydark border border-gray-600 text-white px-4 py-2 rounded-l-md focus:outline-none focus:border-trading-blue w-full"
+              />
+              <Button className="bg-trading-blue hover:bg-trading-blue/90 text-white rounded-l-none">
+                Subscribe
+              </Button>
+            </div>
           </div>
         </div>
-      </section>
-    )
-  }
-  
+
+        <hr className="border-gray-500/50 my-8" />
+
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <p className="text-trading-gray text-sm mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} TradingProAI. All rights reserved.
+          </p>
+          <div className="flex space-x-6">
+            <Link to="#" className="text-trading-gray hover:text-white text-sm">
+              Privacy Policy
+            </Link>
+            <Link to="#" className="text-trading-gray hover:text-white text-sm">
+              Terms of Service
+            </Link>
+            <Link to="#" className="text-trading-gray hover:text-white text-sm">
+              Cookie Policy
+            </Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}

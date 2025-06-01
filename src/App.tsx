@@ -1,156 +1,391 @@
-import { Route, Routes, Navigate  } from 'react-router-dom';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 
 //importing pages
 import Home from './pages/Home';
-import Copytrade from './pages/Copytrade';
-import WhyDifitrades from './pages/WhyDifitrades';
-import Regulations from './pages/Regulations';
-import Contact from './pages/Contact';
-import Traders from './pages/Traders';
-import Label from './pages/Label';
-import Insurance from './pages/Insurance';
-import { Server } from 'lucide-react';
-import Tools from './pages/Tools';
-import Forex from './pages/Forex';
-import Commodities from './pages/Commodities';
-import Bonds from './pages/Bonds';
-import Indices from './pages/Indices';
-import Crypto from './pages/Crypto';
-import Stocks from './pages/Stocks';
-import Futures from './pages/Futures';
-import Conditions from './pages/Conditions';
-import Spreads from './pages/Spreads';
-import Hours from './pages/Hours';
-import Swap from './pages/Swap';
-import Login from './pages/login/Login';
-import Register from './pages/register/Register';
-import PasswordReset from './pages/passwordReset/PasswordReset';
-import PricingPage from './pages/Pricing';
+import { Helmet } from 'react-helmet';
 import PageLoader from './components/PageLoader';
-import { contextData } from './context/AuthContext'
-import UpdateProfile from './components/UpdateProfile';
-import routes from './routes';
-import Dashboard from './pages/Dashboard/Dashboard';
+import { contextData } from './context/AuthContext';
+import Register from './pages/Auth/Register';
+import Login from './pages/Auth/Login';
+import AboutUs from './pages/company/AboutUs';
+import Awards from './pages/company/Awards';
+import Careers from './pages/company/Careers';
+import ContactUs from './pages/company/ContactUs';
+import CompareAcc from './pages/company/CompareAcc';
+import ExpertTraders from './pages/company/ExpertTraders';
+import FAQ from './pages/company/FAQ';
+import Insurance from './pages/company/Insurance';
+import Leverage from './pages/company/Leverage';
+import OurTradingInfrastructure from './pages/company/OurTradingInfrastructure';
+import Regulations from './pages/company/Regulation';
+import Bonds from './pages/markets/Bonds';
+import Commodities from './pages/markets/Commodities';
+import Crypto from './pages/markets/Crypto';
+import ETFs from './pages/markets/ETFs';
+import FX from './pages/markets/FX';
+import Indices from './pages/markets/Indices';
+import ShareCFDs from './pages/markets/ShareCFDs';
+import Spreads from './pages/markets/Spreads';
+import AiMarketBuzz from './pages/tools/AiMarketBuzz';
+import PremiumEconomicCalendar from './pages/tools/PremiumEconomicCalendar';
+import EcomicCalendar from './pages/tools/EconomicCalendar';
+import ForexSentiment from './pages/tools/ForexSentiment';
+import MarketNews from './pages/tools/MarketNews';
+import TechnicalViews from './pages/tools/TechnicalViews';
+import TradeSignals from './pages/tools/TradeSignals';
+import TradeVps from './pages/tools/TradeVPS';
+import ResetPassword from './pages/Auth/ResetPassword';
+import { useEffect, useState } from 'react';
 import DefaultLayout from './components/Layouts/DefaultLayout';
+import Dashboard from './pages/Dashboard/Dashboard';
+import UserOnboarding from './pages/Auth/UserOnboarding';
+import OtpPage from './pages/Auth/OtpPage';
+import Deposit from './pages/Dashboard/Deposit';
+import Withdraw from './pages/Dashboard/Withdraw';
+import Trades from './pages/Dashboard/Trades';
+import TradeHistory from './components/TradeHistory';
+import Transactions from './pages/Dashboard/Transactions';
+import TechnicalInsight from './pages/Dashboard/TechnicalInsight';
+import TradingCourses from './pages/Dashboard/TradingCourses';
+import EconomicCalendar from './pages/Dashboard/EconomicCalendar';
+import Ranking from './pages/Dashboard/Ranking';
+import Settings from './pages/Dashboard/Settings';
+import KYC from './pages/Dashboard/KYC';
+import LoginHistory from './pages/Dashboard/LoginHistory';
+import PracticeTrade from './pages/Dashboard/PracticeTrade';
+import RejectedWithdrawals from './pages/Admin/RejectedWithdrawals';
+import SendMail from './pages/Admin/SendMail';
+import PendingWithdrawals from './pages/Admin/PendingWithdrawals';
+import ApprovedWithdrawals from './pages/Admin/ApprovedWithdrawals';
+import RejectedDeposits from './pages/Admin/RejectedDeposits';
+import PendingDeposits from './pages/Admin/PendingDeposits';
+import ApprovedDeposits from './pages/Admin/ApprovedDeposits';
+import BannedUsers from './pages/Admin/BannedUsers';
+import ManageTrades from './pages/Admin/ManageTrades';
+import ManageTrader from './pages/Admin/ManageTrader';
+import ActiveUsers from './pages/Admin/ActiveUsers';
 import Admin from './pages/Admin/Admin';
 import AdminLayout from './components/Layouts/AdminLayout';
-import ActiveUsers from './pages/Admin/ActiveUsers';
-import ManageTrades from './pages/Admin/ManageTrades';
-import BannedUsers from './pages/Admin/BannedUsers';
-import ApprovedDeposits from './pages/Admin/ApprovedDeposits';
-import PendingDeposits from './pages/Admin/PendingDeposits';
-import RejectedDeposits from './pages/Admin/RejectedDeposits';
-import ApprovedWithdrawals from './pages/Admin/ApprovedWithdrawals';
-import PendingWithdrawals from './pages/Admin/PendingWithdrawals';
-import RejectedWithdrawals from './pages/Admin/RejectedWithdrawals';
-import Settings from './pages/Admin/Settings';
-import Kyc from './pages/Admin/Kyc';
+import KycApproval from './pages/Admin/KycApproval';
+import AdminSettings from './pages/Admin/AdminSettings';
+import DemoTradeHistory from './components/DemoTradeHistory';
+import TradersPage from './pages/Dashboard/TradersPage';
+import CopyTraderErrorModal from './components/CopyTraderErrorModal';
+import { useNavigate } from 'react-router-dom';
+import { Trader } from './types/types';
 
 function App() {
-  const { fetching, user } = contextData();
+  const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isPrivateRoute =
+    location.pathname.includes('/dashboard') ||
+    location.pathname.includes('/admin') ||
+    location.pathname.includes('/login') ||
+    location.pathname.includes('/register') ||
+    location.pathname.includes('/password-reset');
+  const { fetching, user, fetchUser } = contextData();
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [traders, setTraders] = useState([]);
+  const [copiedTraderId, setCopiedTraderId] = useState<string | null>(null);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
+  const handleCopyError = (message: string) => {
+    setErrorMessage(message);
+    setShowError(true);
+  };
 
+  const fetchTraders = async () => {
+    try {
+      const res = await fetch(`${url}/trader`);
+      if (!res.ok) throw new Error('Failed to fetch traders');
+      const data = await res.json();
+      setTraders(data || []);
+    } catch (error) {
+      console.error('Error fetching traders:', error);
+    }
+  };
 
-  if (fetching) return ( <PageLoader /> )
-  
+  const copyTrader = async (trader: Trader) => {
+    try {
+      const action = trader._id === copiedTraderId ? 'uncopy' : 'copy';
+      
+      // Check minimum copy amount requirement
+      if (trader.minimumCopyAmount > user.deposit && action !== 'uncopy') {
+        handleCopyError(
+          `Insufficient balance. You need at least $${trader.minimumCopyAmount} to copy this trader.`,
+        );
+        return false;
+      }
 
-  if (!fetching) return (
-    <Routes>
+      const response = await fetch(`${url}/users/update-user-trader`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          traderId: trader._id,
+          action,
+          userId: user._id,
+        }),
+      });
+
+      if (response.ok) {
+        setCopiedTraderId(action === 'copy' ? trader._id : null);
+        fetchUser(user._id);
+        return true;
+      }
+      return false;
+    } catch (error: any) {
+      handleCopyError(`Error copying trader: ${error.message}.`);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    fetchTraders();
+  }, [user]);
+
+  useEffect(() => {
+    const handleAssetsLoaded = () => {
+      setAssetsLoaded(true);
+    };
+
+    // Wait until all images/videos/fonts are loaded
+    if (document.readyState === 'complete') {
+      handleAssetsLoaded();
+    } else {
+      window.addEventListener('load', handleAssetsLoaded);
+    }
+
+    return () => {
+      window.removeEventListener('load', handleAssetsLoaded);
+    };
+  }, []);
+
+  // Show loader while either assets or user auth is loading
+  if (fetching || !assetsLoaded) return <PageLoader />;
+
+  if (!fetching)
+    return (
+      <>
+        <Helmet>
+          {isPrivateRoute ? (
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+            />
+          ) : (
+            <meta name="viewport" content="width=1280, user-scalable=yes" />
+          )}
+        </Helmet>
+
+        {/* Global Error Modal for Copy Trader functionality */}
+        <CopyTraderErrorModal
+          isOpen={showError}
+          message={errorMessage}
+          onClose={() => setShowError(false)}
+          onDeposit={() => {
+            navigate('/dashboard/deposit');
+            setShowError(false);
+          }}
+        />
+
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/copytrade" element={<Copytrade />} />
-          <Route path="/company/why" element={<WhyDifitrades />} />
-          <Route path="/company/regulations" element={<Regulations />} />
-          <Route path="/company/contact" element={<Contact />} />
-          <Route path="/company/traders" element={<Traders />} />
-          <Route path="/company/label" element={<Label />} />
-          <Route path="/company/insurance" element={<Insurance />} />
-          <Route path="/company/servers" element={<Server />} />
-          <Route path="/company/tools" element={<Tools />} />
-          <Route path="/products/forex" element={<Forex />} />
-          <Route path="/products/commodities" element={<Commodities />} />
-          <Route path="/products/indices" element={<Indices />} />
-          <Route path="/products/bonds" element={<Bonds />} />
-          <Route path="/products/crypto" element={<Crypto />} />
-          <Route path="/products/stocks" element={<Stocks />} />
-          <Route path="/products/futures" element={<Futures />} />
-          <Route path="/more/pricing" element={<PricingPage />} />
-          <Route path="/more/conditions" element={<Conditions />} />
-          <Route path="/more/spreads" element={<Spreads />} />
-          <Route path="/more/hours" element={<Hours />} />
-          <Route path="/more/swap" element={<Swap />} />
-          <Route path="/password-reset" element={<PasswordReset />} />
-          <Route path="/password-reset/:page" element={<PasswordReset />} />
 
+          {/* Company Routes */}
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/awards" element={<Awards />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/compare-account" element={<CompareAcc />} />
+          <Route path="/expert-trader" element={<ExpertTraders />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/insurance" element={<Insurance />} />
+          <Route path="/leverage" element={<Leverage />} />
+          <Route
+            path="/trading-infrastructure"
+            element={<OurTradingInfrastructure />}
+          />
+          <Route path="/regulations" element={<Regulations />} />
+          <Route path="/support" element={<ContactUs />} />
+          <Route path="/why-choose-us" element={<AboutUs />} />
 
-        {user ? (
-          <>
-            {user.isAdmin ? (
-              <>
-              <Route path="/admin/" element={<AdminLayout />}>
-                <Route index element={<Admin />} />
-                <Route path="/admin/home" element={<Admin />} />
-                <Route path="/admin/active-users" element={<ActiveUsers />} />
-                <Route path="/admin/trades" element={<ManageTrades />} />
-                <Route path="/admin/banned-users" element={<BannedUsers />} />
-                <Route path="/admin/approved-deposits" element={<ApprovedDeposits />} />
-                <Route path="/admin/pending-deposits" element={<PendingDeposits />} />
-                <Route path="/admin/rejected-deposits" element={<RejectedDeposits />} />
-                <Route path="/admin/approved-withdrawals" element={<ApprovedWithdrawals />} />
-                <Route path="/admin/pending-withdrawals" element={<PendingWithdrawals />} />
-                <Route path="/admin/rejected-withdrawals" element={<RejectedWithdrawals />} />
-                <Route path="/admin/settings" element={<Settings />} />
-                <Route path="/admin/kyc" element={<Kyc />} />
-              </Route>
+          {/* Markets Routes */}
+          <Route path="/bonds" element={<Bonds />} />
+          <Route path="/commodities" element={<Commodities />} />
+          <Route path="/crypto" element={<Crypto />} />
+          <Route path="/etfs" element={<ETFs />} />
+          <Route path="/fx" element={<FX />} />
+          <Route path="/indices" element={<Indices />} />
+          <Route path="/share-cfds" element={<ShareCFDs />} />
+          <Route path="/spreads" element={<Spreads />} />
+          <Route path="/trading-hours" element={<Home />} />
 
-              <Route path="/login" element={<Navigate to="/admin/" />} />
-              <Route path="/register" element={<Navigate to="/admin/" />} />
-              <Route path="/register/:ref" element={<Navigate to="/admin/" />} />
-              </>
-            ) : (
-              <Route path="/admin/*" element={<Navigate to="/dashboard/"/>}/>
-            )}
+          {/* Tools Routes */}
+          <Route path="/ai-market-buzz" element={<AiMarketBuzz />} />
+          <Route path="/economic-canledar" element={<EcomicCalendar />} />
+          <Route path="/forex-sentiment" element={<ForexSentiment />} />
+          <Route path="/market-news" element={<MarketNews />} />
+          <Route
+            path="/premium-economic-canledar"
+            element={<PremiumEconomicCalendar />}
+          />
+          <Route path="/technical-views" element={<TechnicalViews />} />
+          <Route path="/trade-signals" element={<TradeSignals />} />
+          <Route path="/trade-vps" element={<TradeVps />} />
 
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/register/:ref" element={<Register />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/verify-otp" element={<OtpPage />} />
 
-            {!user.isAdmin ? (
-              <>
-                <Route path="/dashboard/" element={<DefaultLayout />}>
-                  {user.fullName === "" ? (
-                    <Route path="/dashboard/updateProfile" element={<UpdateProfile />} />
-                  ) : (
-                    <Route path="/dashboard/home" element={<Dashboard />} />
-                  )}
+          {user ? (
+            <>
+              {user.isAdmin ? (
+                <>
+                  <Route path="/admin/" element={<AdminLayout />}>
+                    <Route index element={<Admin />} />
+                    <Route path="/admin/home" element={<Admin />} />
+                    <Route
+                      path="/admin/active-users"
+                      element={<ActiveUsers />}
+                    />
+                    <Route path="/admin/trades" element={<ManageTrades />} />
+                    <Route path="/admin/trader" element={<ManageTrader />} />
+                    <Route
+                      path="/admin/banned-users"
+                      element={<BannedUsers />}
+                    />
+                    <Route
+                      path="/admin/approved-deposits"
+                      element={<ApprovedDeposits />}
+                    />
+                    <Route
+                      path="/admin/pending-deposits"
+                      element={<PendingDeposits />}
+                    />
+                    <Route
+                      path="/admin/rejected-deposits"
+                      element={<RejectedDeposits />}
+                    />
+                    <Route
+                      path="/admin/approved-withdrawals"
+                      element={<ApprovedWithdrawals />}
+                    />
+                    <Route
+                      path="/admin/pending-withdrawals"
+                      element={<PendingWithdrawals />}
+                    />
+                    <Route
+                      path="/admin/rejected-withdrawals"
+                      element={<RejectedWithdrawals />}
+                    />
+                    <Route path="/admin/mails" element={<SendMail />} />
+                    <Route path="/admin/settings" element={<AdminSettings />} />
+                    <Route path="/admin/kyc" element={<KycApproval />} />
+                  </Route>
 
-                  <Route index element={<Dashboard />} />
-                  <Route path="/dashboard/home" element={<Dashboard />} />
-                  
-                  {routes.map((route, i) => 
-                    <Route key={i} path={route.path} element={<route.component />} />
-                  )}
-                </Route>
+                  <Route path="/login" element={<Navigate to="/admin/" />} />
+                  <Route path="/register" element={<Navigate to="/admin/" />} />
+                  <Route
+                    path="/register/:ref"
+                    element={<Navigate to="/admin/" />}
+                  />
+                </>
+              ) : (
+                <Route
+                  path="/admin/*"
+                  element={<Navigate to="/dashboard/" />}
+                />
+              )}
 
-                <Route path="/login" element={<Navigate to="/dashboard/" />} />
-                <Route path="/register" element={<Navigate to="/dashboard/" />} />
-                <Route path="/register/:ref" element={<Navigate to="/dashboard/" />} />
-              </>
-            ) : (
-              <Route path="/dashboard/*" element={<Navigate to="/admin/"/>}/>
-            )}
-          </>
-        ): (
-          <>
-            <Route path="/dashboard/*" element={<Navigate to="/login" />} />
-            <Route path="/admin/*" element={<Navigate to="/login" />} />
+              {!user.isAdmin ? (
+                <>
+                  <Route path="/account-setup" element={<UserOnboarding />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/register/:ref" element={<Register />} />
-            <Route path="/password-reset" element={<PasswordReset />} />
-            <Route path="/password-reset/:page" element={<PasswordReset />} />
-          </>
-        )}
-  </Routes>
-  )
+                  <Route path="/dashboard/" element={<DefaultLayout />}>
+                    <Route index element={<Dashboard />} />
+                    <Route path="/dashboard/deposit" element={<Deposit />} />
+                    <Route
+                      path="/dashboard/withdrawal"
+                      element={<Withdraw />}
+                    />
+                    <Route path="/dashboard/copytrading" element={<Trades />} />
+                    <Route
+                      path="/dashboard/traders"
+                      element={
+                        <TradersPage traders={traders} onCopy={copyTrader} />
+                      }
+                    />
+                    <Route
+                      path="/dashboard/copy-trade-history"
+                      element={<TradeHistory />}
+                    />
+                    <Route
+                      path="/dashboard/demo-trade-history"
+                      element={<DemoTradeHistory />}
+                    />
+                    <Route
+                      path="/dashboard/transactions"
+                      element={<Transactions />}
+                    />
+                    <Route
+                      path="/dashboard/practice"
+                      element={<PracticeTrade />}
+                    />
+                    <Route
+                      path="/dashboard/technical-insights"
+                      element={<TechnicalInsight />}
+                    />
+                    <Route
+                      path="/dashboard/trading-courses"
+                      element={<TradingCourses />}
+                    />
+                    <Route
+                      path="/dashboard/economic-calendar"
+                      element={<EconomicCalendar />}
+                    />
+                    <Route
+                      path="/dashboard/loyalty-status"
+                      element={<Ranking />}
+                    />
+                    <Route path="/dashboard/settings" element={<Settings />} />
+                    <Route
+                      path="/dashboard/notifications"
+                      element={<Transactions />}
+                    />
+                    <Route path="/dashboard/kyc" element={<KYC />} />
+                    <Route
+                      path="/dashboard/login-history"
+                      element={<LoginHistory />}
+                    />
+                  </Route>
+                </>
+              ) : (
+                <Route
+                  path="/dashboard/*"
+                  element={<Navigate to="/admin/" />}
+                />
+              )}
+            </>
+          ) : (
+            <>
+              <Route path="/dashboard/*" element={<Navigate to="/login" />} />
+              <Route path="/admin/*" element={<Navigate to="/login" />} />
+
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/register/:ref" element={<Register />} />
+            </>
+          )}
+        </Routes>
+      </>
+    );
 }
 
 export default App;

@@ -1,14 +1,31 @@
-import { useState } from 'react';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
-import { Outlet } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { contextData } from '../../context/AuthContext';
+import PageLoader from '../PageLoader';
+import Sidebar from './Sidebar';
+import Header from './Header';
 
-const DefaultLayout = () => {
+export default function DefaultLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, fetching } = contextData();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!user) return navigate('/login');
+    if (user && user.fullName === '') return navigate('/account-setup');
+
+    const chatCtn = document.getElementById('smartsupp-widget-container');
+    if (chatCtn) chatCtn.style.display = 'none';
+
+    return () => {
+      if (chatCtn) chatCtn.style.display = 'block';
+    };
+  }, [fetching, user, navigate]);
+
+  if (fetching || !user) return <PageLoader />;
 
   return (
-    <div className="dark:bg-boxdark-2 dark:text-bodydark">
+    <div className="bg-gray-100 dark:bg-bodydark">
       <div className="flex h-screen overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -24,6 +41,4 @@ const DefaultLayout = () => {
       </div>
     </div>
   );
-};
-
-export default DefaultLayout;
+}

@@ -26,41 +26,41 @@ export default function AdminUserCards() {
 
   return (
     <div className="grid grid-cols-3 max-lg:grid-cols-1 gap-4 mb-4">
-      <div className="flex flex-col gap-1 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border-l border-l-sky-600">
+      <div className="flex flex-col gap-2 p-3 rounded-lg bg-white dark:border-gray-900 border-gray-200 dark:bg-gray-950/70 border shadow-lg">
         <div className="w-full flex flex-row-reverse items-end justify-between">
-          <h2 className="text-3xl -mb-2 text-gray-700 dark:text-white">
+          <h2 className="text-4xl font-medium text-gray-700 dark:text-white">
             {Number(users).toLocaleString('en-US')}
           </h2>
           <PiUsersThreeThin className="text-4xl text-blue-600" />
         </div>
 
-        <p className="text-xs font-light flex text-gray-400 dark:text-gray-500">
+        <p className="text-xs font-light flex text-gray-600 dark:text-gray-300">
           All Users
         </p>
       </div>
 
-      <div className="flex flex-col gap-1 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border-l border-l-rose-500">
+      <div className="flex flex-col gap-2 p-3 rounded-lg bg-white dark:border-gray-900 border-gray-200 dark:bg-gray-950/70 border shadow-lg">
         <div className="w-full flex flex-row-reverse items-end justify-between">
-          <h2 className="text-3xl -mb-2 text-gray-700 dark:text-white">
+          <h2 className="text-4xl font-medium text-gray-700 dark:text-white">
             {Number(0).toLocaleString('en-US')}
           </h2>
           <PiUsersThreeThin className="text-4xl text-rose-500" />
         </div>
 
-        <p className="text-sm font-light flex text-gray-400 dark:text-gray-500">
+        <p className="text-xs font-light flex text-gray-600 dark:text-gray-300">
           Banned Users
         </p>
       </div>
 
-      <div className="flex flex-col gap-1 px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-800 border-l border-l-lime-300">
+      <div className="flex flex-col gap-2 p-3 rounded-lg bg-white dark:border-gray-900 border-gray-200 dark:bg-gray-950/70 border shadow-lg">
         <div className="w-full flex flex-row-reverse items-end justify-between">
-          <h2 className="text-3xl -mb-2 text-gray-700 dark:text-white">
+          <h2 className="text-4xl font-medium text-gray-700 dark:text-white">
             {Number(activeUsers).toLocaleString('en-US')}
           </h2>
-          <PiUsersThreeThin className="text-4xl text-lime-300" />
+          <PiUsersThreeThin className="text-4xl text-green-500" />
         </div>
 
-        <p className="text-sm font-light flex text-gray-400 dark:text-gray-500">
+        <p className="text-xs font-light flex text-gray-600 dark:text-gray-300">
           Active Users
         </p>
       </div>

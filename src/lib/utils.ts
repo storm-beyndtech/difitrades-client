@@ -1,100 +1,392 @@
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import copyTradeDevice from '../assets/multibank-mt4.png';
+// Logo spinning animation
+export const logoAnimation = {
+  rotate: [0, 360],
+  transition: {
+    duration: 20,
+    ease: 'linear',
+    repeat: Infinity,
+  },
+};
 
-import secImg2 from '../assets/copy-trade3.png';
-import secImg3 from '../assets/copy-trade2.png';
-import secImg4 from '../assets/cfd_stocks.png';
-import cert from '../assets/cert.png';
+// Infinite bounce animation
+export const bounceAnimation = {
+  y: [0, -20, 0], // move up then down
+  transition: {
+    duration: 3,
+    ease: 'easeInOut',
+    repeat: Infinity,
+  },
+};
 
-interface MenuItem {
-  name: string;
-  description?: string;
-  href: string;
+export interface MenuItem {
+  label: string;
+  to: string;
 }
 
-export interface MenuGroup {
-  name: string;
-  icon?: any;
-  items: MenuItem[];
-  href: string;
-}
-
-export const heroAvatarLinks = [
-  `https://plus.unsplash.com/premium_photo-1691784781482-9af9bce05096?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D`,
-  `https://media.istockphoto.com/id/1644195327/photo/beautiful-woman-posing-for-a-portrait.webp?a=1&b=1&s=612x612&w=0&k=20&c=ARVl0NlHIJ1gub0zJklaqPpHDZEwGRR8O9bQP1kp34I=`,
-  `https://plus.unsplash.com/premium_photo-1664536392779-049ba8fde933?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YXZhdGFyfGVufDB8fDB8fHww`,
-  `https://plus.unsplash.com/premium_photo-1689551671541-31a345ce6ae0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D`,
-];
-
-export const products: MenuItem[] = [
-  { name: 'Forex CFDs', href: '/products/forex' },
-  { name: 'Commodities CFDs', href: '/products/commodities' },
-  { name: 'Indices CFDs', href: '/products/indices' },
-  { name: 'Bonds CFDs', href: '/products/bonds' },
-  { name: 'Stocks CFDs', href: '/products/stocks' },
-  { name: 'Futures CFDs', href: '/products/futures' },
-  { name: 'Digital Currencies', href: '/products/crypto' },
-];
-
-export const company: MenuItem[] = [
-  { name: 'Why Difitrades', href: '/company/why' },
-  { name: 'Regulations', href: '/company/regulations' },
-  { name: 'Contact Us', href: '/company/contact' },
-  { name: 'Expert Traders', href: '/company/traders' },
-  { name: 'White Label', href: '/company/label' },
-  { name: 'Insurance', href: '/company/insurance' },
-  { name: 'Careers', href: '/company/careers' },
-  { name: 'Servers', href: '/company/servers' },
-  { name: 'MT4 Tools', href: '/company/tools' },
-];
-
-export const more: MenuItem[] = [
-  { name: 'Pricing', href: '/more/pricing' },
-  { name: 'Trading Conditions', href: '/more/conditions' },
-  { name: 'Spreads', href: '/more/spreads' },
-  { name: 'Trading Hours', href: '/more/hours' },
-  { name: 'Swap Rates', href: '/products/swap' },
-];
-
-export const menuItems: MenuGroup[] = [
-  { name: 'CopyTrading', icon: ChevronDownIcon, items: [], href: '/copytrade' },
+export const marketDropDownLinks: MenuItem[] = [
   {
-    name: 'Products',
-    icon: ChevronDownIcon,
-    items: [...products],
-    href: '/products',
+    label: 'Bonds',
+    to: '/bonds',
   },
   {
-    name: 'Company',
-    icon: ChevronDownIcon,
-    items: [...company],
-    href: '/company',
+    label: 'Commodities',
+    to: '/commodities',
   },
-  { name: 'More', icon: ChevronDownIcon, items: [...more], href: '/' },
+  {
+    label: 'Crypto',
+    to: '/crypto',
+  },
+  {
+    label: 'ETFs',
+    to: '/etfs',
+  },
+  {
+    label: 'Forex',
+    to: '/fx',
+  },
+  {
+    label: 'Indices',
+    to: '/indices',
+  },
+  {
+    label: 'Share CFDs',
+    to: '/share-cfds',
+  },
+  {
+    label: 'Spreads',
+    to: '/spreads',
+  },
+  {
+    label: 'Trading Hours',
+    to: '/trading-hours',
+  },
 ];
+
+export const companyDropDownLinks: MenuItem[] = [
+  {
+    label: 'About Us',
+    to: '/about',
+  },
+  {
+    label: 'Awards',
+    to: '/awards',
+  },
+  {
+    label: 'Careers',
+    to: '/careers',
+  },
+  {
+    label: 'Support',
+    to: '/contact',
+  },
+  {
+    label: 'Compare Account',
+    to: '/compare-account',
+  },
+  {
+    label: 'Expert Trader',
+    to: '/expert-trader',
+  },
+  {
+    label: 'FAQ',
+    to: '/faq',
+  },
+  {
+    label: 'Insurance',
+    to: '/insurance',
+  },
+  {
+    label: 'Leverage',
+    to: '/leverage',
+  },
+];
+
+export const toolsDropDownLinks: MenuItem[] = [
+  {
+    label: 'AI Market Buzz',
+    to: '/ai-market-buzz',
+  },
+  {
+    label: 'Economic Canledar',
+    to: '/economic-canledar',
+  },
+  {
+    label: 'Forex Sentiment',
+    to: '/forex-sentiment',
+  },
+  {
+    label: 'Market News',
+    to: '/market-news',
+  },
+  {
+    label: 'Premium Economic Canledar',
+    to: '/premium-economic-canledar',
+  },
+  {
+    label: 'Technical Views',
+    to: '/technical-views',
+  },
+  {
+    label: 'Trade Signals',
+    to: '/trade-signals',
+  },
+  {
+    label: 'Trade Vps',
+    to: '/trade-vps',
+  },
+];
+
+export const bonds = {
+  title: 'Popular Bonds',
+  type: 'bonds',
+  markets: [
+    {
+      symbol: 'FGBL',
+      name: 'Euro-Bund Futures',
+      exchange: 'Euro-Bund Futures',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-bonds-img01.webp',
+    },
+    {
+      symbol: 'FLG',
+      name: 'Euronext',
+      exchange: 'Euronext',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-bonds-img2.webp',
+    },
+    {
+      symbol: 'TY',
+      name: 'CBOT',
+      exchange: 'CBOT',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-bonds-img3.webp',
+    },
+    {
+      symbol: 'FEI',
+      name: 'ICE',
+      exchange: 'ICE',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-bonds-img4.webp',
+    },
+  ],
+};
+
+export const shareCFDs = {
+  title: 'Popular Share CFDs',
+  type: 'shareCFDs',
+  markets: [
+    {
+      symbol: 'AAPL',
+      name: 'Apple',
+      exchange: 'Apple',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-shares-icon1.webp',
+    },
+    {
+      symbol: 'GOOGL',
+      name: 'Google',
+      exchange: 'Google',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-shares-icon2.webp',
+    },
+    {
+      symbol: 'META',
+      name: 'Meta',
+      exchange: 'Meta',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-shares-icon3.webp',
+    },
+    {
+      symbol: 'NFLX',
+      name: 'Netflix',
+      exchange: 'Netflix',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-shares-icon4.webp',
+    },
+  ],
+};
+
+export const forex = {
+  title: 'Popular Forex Pairs',
+  type: 'forex',
+  markets: [
+    {
+      symbol: 'EURUSD',
+      name: 'EUR/USD',
+      exchange: 'EUR / USD',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-forex-icon1.webp',
+    },
+    {
+      symbol: 'AUDUSD',
+      name: 'AUD/USD',
+      exchange: 'AUD / USD',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-forex-icon2.webp',
+    },
+    {
+      symbol: 'GBPUSD',
+      name: 'GBP/USD',
+      exchange: 'GBP / USD',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-forex-icon3.webp',
+    },
+    {
+      symbol: 'USDJPY',
+      name: 'USD/JPY',
+      exchange: 'USD / JPY',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-forex-icon4.webp',
+    },
+  ],
+};
+
+export const commodity = {
+  title: 'Popular Commodity Markets',
+  type: 'commodity',
+  markets: [
+    {
+      symbol: 'XAUUSD',
+      name: 'Gold',
+      exchange: 'Gold',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-commodities-icon1%EF%B9%96v=1.webp',
+    },
+    {
+      symbol: 'CL-OIL',
+      name: 'Oil',
+      exchange: 'Oil',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-commodities-icon2%EF%B9%96v=1.webp',
+    },
+    {
+      symbol: 'XAGUSD',
+      name: 'Silver',
+      exchange: 'Silver',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-commodities-icon3%EF%B9%96v=1.webp',
+    },
+    {
+      symbol: 'NATGAS',
+      name: 'Natural Gas',
+      exchange: 'Natural Gas',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-commodities-icon4%EF%B9%96v=1.webp',
+    },
+  ],
+};
+
+export const crypto = {
+  title: 'Popular Crypto Markets',
+  type: 'crypto',
+  markets: [
+    {
+      symbol: 'BTCUSD',
+      name: 'Bitcoin',
+      exchange: 'Bitcoin',
+      image: 'https://assets.coincap.io/assets/icons/btc@2x.png',
+    },
+    {
+      symbol: 'ETHUSD',
+      name: 'Ethereum',
+      exchange: 'Ethereum',
+      image: 'https://assets.coincap.io/assets/icons/eth@2x.png',
+    },
+    {
+      symbol: 'LTCUSD',
+      name: 'Litecoin',
+      exchange: 'Litecoin',
+      image: 'https://assets.coincap.io/assets/icons/ltc@2x.png',
+    },
+    {
+      symbol: 'XRPUSD',
+      name: 'Ripple',
+      exchange: 'Ripple',
+      image: 'https://assets.coincap.io/assets/icons/xrp@2x.png',
+    },
+  ],
+};
+
+export const indices = {
+  title: 'Popular Indices',
+  type: 'indices',
+  markets: [
+    {
+      symbol: 'US500',
+      name: 'S&P 500',
+      exchange: 'S&P 500',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-indices-icon1.webp',
+    },
+    {
+      symbol: 'NASDAQ',
+      name: 'NASDAQ',
+      exchange: 'NASDAQ',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-indices-icon1.webp',
+    },
+    {
+      symbol: 'UK100',
+      name: 'FTSE 100',
+      exchange: 'FTSE 100',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-indices-icon3.webp',
+    },
+    {
+      symbol: 'GER40',
+      name: 'DAX',
+      exchange: 'DAX',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-indices-icon2.webp',
+    },
+  ],
+};
+
+export const etfs = {
+  title: 'Popular ETFs',
+  type: 'etfs',
+  markets: [
+    {
+      symbol: 'SPY',
+      name: 'SPDR S&P 500',
+      exchange: 'SPDR S&P 500',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-etfs-icon1.webp',
+    },
+    {
+      symbol: 'QQQ',
+      name: 'Invesco QQQ',
+      exchange: 'Invesco QQQ',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-etfs-icon2.webp',
+    },
+    {
+      symbol: 'GLD',
+      name: 'SPDR Gold',
+      exchange: 'SPDR Gold',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-etfs-icon3.webp',
+    },
+    {
+      symbol: 'VTI',
+      name: 'Vanguard Total',
+      exchange: 'Vanguard Total',
+      image:
+        'https://protradercopy.com/wp-content/themes/ProTrader-Copy/images/popular-etfs-icon4.webp',
+    },
+  ],
+};
+
 
 export const standardPlan = [
   {
     pips: {
-      min: 5,
-      max: 10,
-    },
-    title: 'BEGINNER',
-    truepoints: [
-      'Minimum: ﹩100',
-      'Maximum: ﹩499',
-      '10% Trade Commission',
-      '24/7 active support',
-    ],
-  },
-  {
-    pips: {
-      min: 10,
-      max: 15,
+      min: 20,
+      max: 25,
     },
     title: 'STANDARD',
     truepoints: [
-      'Minimum: ﹩500',
+      'Minimum: ﹩3,000',
       'Maximum: ﹩4,999',
       '10% Trade Commission',
       '24/7 active support',
@@ -102,8 +394,8 @@ export const standardPlan = [
   },
   {
     pips: {
-      min: 15,
-      max: 20,
+      min: 25,
+      max: 30,
     },
     title: 'MASTER',
     truepoints: [
@@ -115,8 +407,8 @@ export const standardPlan = [
   },
   {
     pips: {
-      min: 20,
-      max: 25,
+      min: 30,
+      max: 35,
     },
     title: 'PREMIUM',
     truepoints: [
@@ -129,8 +421,8 @@ export const standardPlan = [
   {
     title: 'ULTIMATE',
     pips: {
-      min: 25,
-      max: 30,
+      min: 35,
+      max: 40,
     },
     truepoints: [
       'Minimum: ﹩20,000',
@@ -141,8 +433,8 @@ export const standardPlan = [
   },
   {
     pips: {
-      min: 30,
-      max: 35,
+      min: 40,
+      max: 45,
     },
     title: 'CORPORATE',
     truepoints: [
@@ -157,8 +449,8 @@ export const standardPlan = [
 export const advancedPlan = [
   {
     pips: {
-      min: 15,
-      max: 20,
+      min: 30,
+      max: 40,
     },
     title: 'STANDARD',
     truepoints: [
@@ -170,8 +462,8 @@ export const advancedPlan = [
   },
   {
     pips: {
-      min: 20,
-      max: 25,
+      min: 40,
+      max: 45,
     },
     title: 'MASTER PLUS',
     truepoints: [
@@ -183,8 +475,8 @@ export const advancedPlan = [
   },
   {
     pips: {
-      min: 25,
-      max: 30,
+      min: 50,
+      max: 60,
     },
     title: 'PREMIUM',
     truepoints: [
@@ -197,8 +489,8 @@ export const advancedPlan = [
   {
     title: 'ULTIMATE',
     pips: {
-      min: 30,
-      max: 35,
+      min: 60,
+      max: 70,
     },
     truepoints: [
       'Minimum: ﹩50,000',
@@ -209,8 +501,8 @@ export const advancedPlan = [
   },
   {
     pips: {
-      min: 35,
-      max: 40,
+      min: 70,
+      max: 80,
     },
     title: 'CORPORATE',
     truepoints: [
@@ -225,8 +517,8 @@ export const advancedPlan = [
 export const NFP = [
   {
     pips: {
-      min: 20,
-      max: 25,
+      min: 100,
+      max: 124,
     },
     title: 'STARTER',
     truepoints: [
@@ -238,7 +530,7 @@ export const NFP = [
   },
   {
     pips: {
-      min: 25,
+      min: 150,
       max: undefined,
     },
     title: 'PREMIUM',
@@ -251,7 +543,7 @@ export const NFP = [
   },
   {
     pips: {
-      min: 30,
+      min: 200,
       max: undefined,
     },
     title: 'ULTIMATE',
@@ -267,24 +559,24 @@ export const NFP = [
 export const BTC = [
   {
     pips: {
-      min: 25,
-      max: 30,
+      min: 65,
+      max: 70,
     },
     title: 'BASIC',
     truepoints: ['1 - 1.5 BTC', '10% Trade Commission', '24/7 active support'],
   },
   {
     pips: {
-      min: 30,
-      max: 35,
+      min: 70,
+      max: 75,
     },
     title: 'STANDARD',
     truepoints: ['5 - 14.9 BTC', '10% Trade Commission', '24/7 active support'],
   },
   {
     pips: {
-      min: 35,
-      max: 40,
+      min: 80,
+      max: 85,
     },
     title: 'PREMIUM',
     truepoints: [
@@ -295,13 +587,15 @@ export const BTC = [
   },
   {
     pips: {
-      min: 40,
-      max: 45,
+      min: 90,
+      max: 95,
     },
     title: 'PRO',
     truepoints: ['30+ BTC', '10% Trade Commission', '24/7 active support'],
   },
 ];
+
+
 
 export const testimonies = [
   {
@@ -384,217 +678,3 @@ export const testimonies = [
       "Difitrades's commitment to ethical financial practices is inspiring. Their recommendations are always aligned with my values, and their transparency in explaining financial strategies is refreshing. With their guidance, I've been able to achieve my financial goals while staying socially responsible.",
   },
 ];
-
-export const tradeSteps = [
-  {
-    title: 'Find a Lead Trader in the Leaderboard',
-    desc: 'Check out the Leaderboard, search by performance, assets, percentage of the win rate and more. Find the one for you and talk to support via Live Chat.',
-  },
-  {
-    title: 'Enroll for an Account',
-    desc: 'Register on the platform to access the Autocopy dashboard and essential trading indicators that show how the Lead Trader performs and profits.',
-  },
-  {
-    title: 'Verify account and deposit investment amount',
-    desc: 'Choose deposit method and make payment of amount you want to profit with trader.',
-  },
-  {
-    title: 'After Trade ends, Take Profit triggers',
-    desc: 'You copy Stop Loss and Take Profit settings after your leader, but you can withdraw after trade ends.',
-  },
-  {
-    title: 'Confirm settings and start Earning',
-    desc: "After payment approval. Now you are automatically mirroring trader's positions. You can monitor your progress and profits or change your Autocopy profile settings any time.",
-  },
-];
-
-//Home Section
-export const HomeSec1 = {
-  title: 'Copy Lead Traders',
-  span: undefined,
-  desc: 'Join and trade via a social network and profit from the knowledge of trading experts. Copy Lead Traders from around the world and reach your targets!',
-  moreDesc: [
-    'Find a trader you like and make sure to check if the risk score suits you.',
-    'Choose if you want to invest relative or a fixed amount per each trade.',
-    'Begin mirroring the strategies of other traders automatically in real-time.',
-  ],
-  imgUrl: copyTradeDevice,
-};
-
-//Home Section
-export const HomeSec2 = {
-  title: 'Copy Trading Simplified',
-  desc: 'With over 500+ registered and regulated traders on Difitrades, you get the liberty to beat the PDT & day trading by getting started with our copy trading tool below the $25k minimum requirement. Mirror your desired expert on the best linked platform like Thinkorswim, Webull, Robinhood. At Difitrades we thrive to bring you the modern trading experience.',
-  imgUrl: secImg2,
-  url: '#',
-};
-
-//Home Section
-export const aboutSec2 = {
-  title: 'Certification and Licensing',
-  desc: 'Certification validates skills through assessments by organizations, while licensing grants legal permission to engage in specific activities. Both ensure standards, professionalism, and public safety in various industries.',
-  imgUrl: cert,
-  url: '/difitrades.pdf',
-  btnLabel: 'View Certificate',
-  pdf: true,
-};
-
-//Home Section
-export const HomeSec3 = {
-  title: 'When They Trade, You Trade',
-  desc: "Whether you're a beginner learning the basics or you simply don't have time to watch the markets, now it's easy to leverage other traders' expertise. With Difitrades Copy Trading, you can automatically copy top-performing traders, instantly replicating their trading in your own portfolio.",
-  imgUrl: secImg3,
-};
-
-//Home Section
-export const HomeSec4 = {
-  title: '',
-  span: undefined,
-  desc: undefined,
-  moreDesc: [
-    'Increase your profits with the highest rebates & commissions in the industry.',
-    'Join a growing network of 30,000+ introducing brokers since 2005.',
-    'Partner with a global leader in the financial markets.',
-    'Experience our exclusive IB program that suits your business.',
-    'Build a client network with our advanced partnership solution.',
-  ],
-  imgUrl: secImg4,
-  reverse: true,
-  bulletList: true,
-};
-
-//Company Sections
-export const companySec1 = {
-  title: 'About',
-  span: 'Difitrades',
-  desc: "Difitrades is a contemporary copy trading platform, distinguished by its modern features in comparison to MetaQuotes' platform. Experience lightning-fast order execution and a user-friendly interface that enables you to indulge in Raw Pricing trading. Benefit from No Dealing Desk trading seamlessly, accessible from anywhere in the world.",
-  moreDesc: [
-    'Simple user interface',
-    'Advanced take profit and stop loss systems',
-    'Detachable charts and varying chart time frames',
-    'Live sentiments and depth of market',
-  ],
-  imgUrl:
-    'https://images.pexels.com/photos/7352527/pexels-photo-7352527.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-  bulletList: true,
-};
-
-//Hero Details for Products
-export const fxHero = {
-  title: 'Forex',
-  subtitle:
-    "Access the world's largest and most liquid market with Raw spreads starting from 0.0 pips.",
-};
-
-export const cmHero = {
-  title: 'Commodities',
-  subtitle:
-    'Trade the most popular CFDs on Commodities from around the world, including energies, agriculture and metals. Difitrades combines tight pricing and flexible conditions to give you one powerful product.',
-};
-
-export const indicesHero = {
-  title: 'Indices',
-  subtitle:
-    'Gain exposure to the basket of instruments making up the index in just one trade. The world’s most popular Indices are available on all Difitrades trading platforms.',
-};
-
-export const bondsHero = {
-  title: 'Bonds',
-  subtitle:
-    'Trade the world’s most popular and liquid fixed income securities from the United States, the UK, Europe and Japan on MetaTrader 4 and 5.',
-};
-
-export const cryptoHero = {
-  title: 'Cryptocurrency',
-  subtitle:
-    'Cryptocurrencies are volatile, unregulated, decentralised and controlled almost exclusively by retail speculators. Trade the world’s newest and most exciting asset class as CFDs with an FSA regulated Forex CFD Provider.',
-};
-
-export const stocksHero = {
-  title: 'Stocks',
-  subtitle:
-    'Trade over +2100 large-cap Stocks CFDs across the ASX, NYSE and NASDAQ stock exchanges with superior execution and tight pricing exclusively on the Difitrades MetaTrader 5 platform.',
-};
-
-export const futuresHero = {
-  title: 'Futures',
-  subtitle:
-    "Futures are one of the most popular form of CFDs. Difitrades offer a range of Futures from around the world, including ICE Dollar Index and CBOE VIX Index. Online Futures based CFDs are offered exclusively on Difitrades ' MetaTrader 4 & 5 Platform.",
-};
-
-//Hero Details for Company
-export const whyHero = {
-  title: 'Why Difitrades',
-  subtitle: '',
-};
-
-export const regHero = {
-  title: 'Regulations',
-  subtitle:
-    'Difitrades is authorised and regulated by multiple Regulators across the globe. Trade with peace of mind knowing that Difitrades is monitored by some of the strictest financial regulators’ bodies in the world.',
-};
-
-export const contactHero = {
-  title: 'Swift Customer Service, 24/7',
-  subtitle: '',
-};
-
-export const tradersHero = {
-  title: 'Expert Traders',
-  subtitle:
-    'The Difitrades traders are one of the most competitive traders in the world. Making the most profit on BullCopytrade is an admirable title, getting it takes time, brains and patience. You can copy any of the traders at BullCopytrade.',
-};
-
-export const labelHero = {
-  title: 'White Label',
-  subtitle:
-    "Difitrades ' white label partnership program is a complete solution giving your clients access to our market-leading liquidity and technology.",
-};
-
-export const insuranceHero = {
-  title: 'Client Funds Insurance up to US$1,000,000',
-  subtitle: 'No opt-in is required and no extra costs',
-};
-
-export const serversHero = {
-  title: 'Servers',
-  subtitle:
-    'Virtual Private Server (VPS) & Other Trading Servers allows traders to run automated trading strategies 24 hours a day 7 days a week with the fastest possible connectivity to the Difitrades trading servers.',
-};
-
-export const toolsHero = {
-  title: 'Advance Trading',
-  subtitle:
-    "With the help of Advanced Trading Tools, the world's best trading platform is now even better, providing our traders with a competitive edge",
-};
-
-//Hero Details for More
-export const pricingHero = {
-  title: 'Explore Packages',
-  subtitle:
-    "We've got a great experience available to our customers at the best trading conditions for minimal prices",
-};
-
-export const condHero = {
-  title: 'Trading Conditions',
-  subtitle:
-    'The Difitrades Trading environment offers the most aggressive pricing and flexible trading conditions globally. They are ideal for traders who demand the best execution quality and lowest spreads.',
-};
-
-export const spreadsHero = {
-  title: 'Spreads',
-  subtitle:
-    'Difitrades ’ spreads are among the lowest across all major and minor currency pairs. In particular, our average EUR/USD spread* of 0.1 pips is one of the lowest in the world.',
-};
-
-export const hoursHero = {
-  title: 'Trading Hours',
-  subtitle:
-    'At Difitrades there’s always a market for you to trade. Our dedicated specialists are available for you 24 hours a day, 5 days a week.',
-};
-
-export const swapHero = {
-  title: 'Swap Rates',
-  subtitle:
-    'Difitrades swap rates are amongst the most competitive in the world. Maximise your overnight swap earnings or reduce your swap costs across our wide range of products.',
-};

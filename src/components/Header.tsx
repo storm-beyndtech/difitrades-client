@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Logo from '../assets/fav.svg';
-import DarkModeSwitcher from './DarkModeSwitcher';
+import DarkModeSwitcher from './Layouts/DarkModeSwitcher';
 import DropdownUser from './DropdownUser';
 
 const Header = (props: {
@@ -53,7 +53,7 @@ const Header = (props: {
           </button>
 
           <Link className="block flex-shrink-0 lg:hidden" to="/">
-            <img src={Logo} alt="Logo" className='w-8 h-8'/>
+            <img src={Logo} alt="Logo" className="w-8 h-8" />
           </Link>
         </div>
 

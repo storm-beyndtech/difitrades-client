@@ -1,210 +1,457 @@
-import { Fragment, useState, useEffect } from 'react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import {
-  ChevronDownIcon,
-  CursorArrowRaysIcon,
-} from '@heroicons/react/20/solid';
-import { Dialog, Popover, Transition } from '@headlessui/react';
+import { useState, useEffect } from 'react';
+import { ChevronDown, Menu, X } from 'lucide-react';
+import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.svg';
-import { MenuGroup, menuItems } from '@/lib/utils';
-import { PiUserLight } from 'react-icons/pi';
-import { contextData } from '@/context/AuthContext';
-import { Helmet } from 'react-helmet';
+import GTranslateProvider from './ui/GTranslateProvider';
+import {
+  companyDropDownLinks,
+  marketDropDownLinks,
+  toolsDropDownLinks,
+} from '@/lib/utils';
 
-function MenuList({ items }: { items: MenuGroup[] }) {
-  const handleNavbg = () => {
-    const nav = document.getElementById('navBar');
-    if (nav) {
-      if (window.scrollY >= 500) nav.style.backgroundColor = 'rgb(17 24 39)';
-      else {
-        nav.style.backgroundColor = '';
-      }
-    }
-  };
+export default function NavBar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
+  // Handle screen resize
   useEffect(() => {
-    window.addEventListener('scroll', handleNavbg);
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkIsMobile();
+    window.addEventListener('resize', checkIsMobile);
+    return () => window.removeEventListener('resize', checkIsMobile);
   }, []);
 
-  return (
-    <div className={`lg:flex lg:items-center gap-3`}>
-      {items.map((listItem, i) => (
-        <Popover className="relative" key={i}>
-          {listItem.items.length > 0 ? (
-            <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-100">
-              <span>{listItem.name}</span>
-              <ChevronDownIcon className="hidden lg:flex h-5 w-5" />
-            </Popover.Button>
-          ) : (
-            <Link
-              to={listItem.href}
-              className="inline-flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-100"
-            >
-              <span>{listItem.name}</span>
-            </Link>
-          )}
+  // Handle scrolling effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
 
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-200"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-150"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
-          >
-            <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
-              <div className="w-screen max-w-sm flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-                <div className="p-4">
-                  {listItem.items.map((item, i) => (
-                    <div
-                      key={i}
-                      className="group relative flex items-center gap-x-8 rounded-lg p-3 hover:bg-gray-50"
-                    >
-                      <div className="mt-1 flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-gray-50">
-                        <CursorArrowRaysIcon className="h-3 w-3 text-gray-600 group-hover:text-indigo-600" />
-                      </div>
-                      <div>
-                        <Link
-                          to={item.href}
-                          className="font-medium text-gray-900"
-                        >
-                          {item.name} <span className="absolute inset-0" />
-                        </Link>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Popover.Panel>
-          </Transition>
-        </Popover>
-      ))}
-    </div>
-  );
-}
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { user } = contextData();
-
-  const dashboard = [{ name: 'Dashboard', items: [], href: '/dashboard' }];
-
-  const auth = [
-    { name: 'Login', items: [], href: '/login' },
-    { name: 'Register', items: [], href: '/register' },
-  ];
+  const toggleDropdown = (name: any) => {
+    setActiveDropdown(activeDropdown === name ? null : name);
+  };
 
   return (
-    <>
-      <Helmet>
-        <script
-          type="text/javascript"
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-        ></script>
-        <script type="text/javascript">
-          {`
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-            }
-          `}
-        </script>
-      </Helmet>
-      <header
-        className="fixed w-full top-0 left-0 z-40 backdrop-blur-md"
-        id="navBar"
+    <header className="fixed top-0 left-0 z-999999 right-0 w-full">
+      {/* Top Utility Nav */}
+      <div
+        className={`bg-gray-900/90 relative z-9 ${
+          isScrolled ? '' : 'border-b-[40px] border-bodydark'
+        } customBlur`}
       >
-        <nav className="max-ctn flex items-center justify-between p-5">
-          <div className="flex lg:flex-1">
-            <Link to="/" className="">
-              <img className="h-9 w-auto" src={logo} alt="logo" />
-            </Link>
-          </div>
-
-          <div id="google_translate_element" className="mr-5"></div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex lg:hidden">
-            <button
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(true)}
+        <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-4">
+          <div className="hidden sm:flex items-center space-x-6">
+            <a
+              href="/economic-calendar"
+              className="text-sm text-gray-300 hover:text-white transition-colors"
             >
-              <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" />
-            </button>
+              Market News
+            </a>
+            <a
+              href="/register"
+              className="text-sm text-gray-300 hover:text-white transition-colors"
+            >
+              Demo Account
+            </a>
+            <a
+              href="/contact"
+              className="text-sm text-gray-300 hover:text-white transition-colors"
+            >
+              Contact Us
+            </a>
           </div>
+          <div className="flex items-center space-x-4 ml-auto">
+            <Link to="/register">
+              <button className="px-4 py-1 bg-transparent border border-blue-600 text-white text-sm rounded transition-colors">
+                Sign up
+              </button>
+            </Link>
 
-          {/* Desktop Menu */}
-          <Popover.Group className="hidden lg:flex lg:gap-x-12">
-            <MenuList items={menuItems} />
-          </Popover.Group>
+            <Link to="/login">
+              <button className="px-4 py-1 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded transition-colors">
+                Login
+              </button>
+            </Link>
+            <div className="hidden sm:flex cursor-pointer">
+              <GTranslateProvider />
+            </div>
+          </div>
+        </div>
+      </div>
 
-          {user ? (
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-6">
-              <Link
-                to="/dashboard"
-                className="border border-white/20 px-4 py-2 !rounded-lg text-sm font-medium text-gray-100 flex items-center gap-2"
-              >
-                Dashboard{' '}
-                <span className="ml-3">
-                  <PiUserLight />
-                </span>
+      {/* Main Navigation */}
+      <div
+        className={`transition-all duration-900 relative bg-bodydark ${
+          isScrolled ? 'w-full' : 'max-w-6xl mx-auto mt-[-40px] '
+        }`}
+      >
+        <div className={`max-w-6xl mx-auto px-5 py-4`}>
+          {isMobile ? (
+            <div className="flex justify-between items-center">
+              <Link to="/" className="">
+                <img src={logo} alt="logo" className="w-30" />
               </Link>
+              <button
+                className="text-white p-2"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
+
+              {/* Mobile Menu */}
+              {isMobileMenuOpen && (
+                <div className="absolute top-full left-0 right-0 bg-gray-900 border-t border-gray-800">
+                  <div className="p-4 flex flex-col space-y-4">
+                    <Link
+                      to="/"
+                      className="text-white hover:text-blue-400 transition-colors font-medium py-2"
+                    >
+                      HOME
+                    </Link>
+
+                    <div>
+                      <button
+                        className="flex justify-between items-center w-full py-2"
+                        onClick={() => toggleDropdown('markets')}
+                      >
+                        <span className="text-white font-medium">MARKETS</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            activeDropdown === 'markets' ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {activeDropdown === 'markets' && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          <p className="text-sm font-medium text-blue-400">
+                            PRODUCTS
+                          </p>
+                          {marketDropDownLinks.map((link, i) => (
+                            <Link
+                              key={i}
+                              to={link.to}
+                              className="block text-sm text-white hover:text-blue-400 py-1"
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <button
+                        className="flex justify-between items-center w-full py-2"
+                        onClick={() => toggleDropdown('company')}
+                      >
+                        <span className="text-white font-medium">COMPANY</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            activeDropdown === 'company' ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {activeDropdown === 'company' && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          {companyDropDownLinks.map((link, i) => (
+                            <Link
+                              key={i}
+                              to={link.to}
+                              className="block text-sm text-white hover:text-blue-400 py-1"
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <button
+                        className="flex justify-between items-center w-full py-2"
+                        onClick={() => toggleDropdown('tools')}
+                      >
+                        <span className="text-white font-medium">TOOLS</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            activeDropdown === 'tools' ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {activeDropdown === 'tools' && (
+                        <div className="ml-4 mt-2 space-y-2">
+                          {toolsDropDownLinks.map((link, i) => (
+                            <Link
+                              key={i}
+                              to={link.to}
+                              className="block text-sm text-white hover:text-blue-400 py-1"
+                            >
+                              {link.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center lg:gap-6">
-              <Link
-                to="/register"
-                className="border border-white/20 px-4 py-2 !rounded-lg text-sm font-medium text-gray-100 flex items-center gap-2"
-              >
-                Register{' '}
-                <span className="ml-3">
-                  <PiUserLight />
-                </span>
-              </Link>
+            <div className="flex justify-center items-center">
+              <nav className="flex items-center">
+                <ul className="flex gap-20 items-center z-99">
+                  <li>
+                    <a
+                      href="/"
+                      className="text-sm text-white hover:text-blue-400 transition-colors font-medium"
+                    >
+                      HOME
+                    </a>
+                  </li>
 
-              <Link
-                to="/login"
-                className="text-sm font-medium leading-6 text-gray-100"
-              >
-                Log in{' '}
-                <span className="ml-3" aria-hidden="true">
-                  &rarr;
-                </span>
-              </Link>
+                  <li className="relative group">
+                    <button
+                      className="flex items-center text-sm text-white hover:text-blue-400 transition-colors font-medium"
+                      onClick={() => toggleDropdown('markets')}
+                    >
+                      MARKETS
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          activeDropdown === 'markets' ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {activeDropdown === 'markets' && (
+                      <div className="absolute top-full left-0 mt-2 w-[700px] bg-gray-900 border border-gray-800/40 p-6">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-2 grid grid-cols-2 gap-4">
+                            <div>
+                              <h4 className="font-medium text-blue-400 mb-3">
+                                PRODUCTS
+                              </h4>
+                              <ul className="space-y-2">
+                                {marketDropDownLinks
+                                  .slice(0, 5)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-transparent mb-3">
+                                &nbsp;
+                              </h4>
+                              <ul className="space-y-2 mt-8">
+                                {marketDropDownLinks
+                                  .slice(5, 9)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="col-span-1">
+                            <h4 className="font-medium text-green-400 mb-2">
+                              Access The Global Forex Market
+                            </h4>
+                            <p className="text-sm text-gray-300">
+                              Access 1000+ Instruments at up to 1000:1 Leverage
+                              through our MT4 and PRO Trader platforms
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+
+                  <li>
+                    <Link to="/" className="">
+                      <img src={logo} alt="logo" className="w-30" />
+                    </Link>
+                  </li>
+
+                  <li className="relative group">
+                    <button
+                      className="flex items-center text-sm text-white hover:text-blue-400 transition-colors font-medium"
+                      onClick={() => toggleDropdown('company')}
+                    >
+                      COMPANY
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          activeDropdown === 'company' ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {activeDropdown === 'company' && (
+                      <div className="absolute top-full left-0 mt-2 w-[700px] bg-gray-900 border border-gray-800/40 p-6">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-2 grid grid-cols-2 gap-4">
+                            <div>
+                              <h4 className="font-medium text-blue-400 mb-3">
+                                ABOUT US
+                              </h4>
+                              <ul className="space-y-2">
+                                {companyDropDownLinks
+                                  .slice(0, 5)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-blue-400 mb-3">
+                                More
+                              </h4>
+                              <ul className="space-y-2">
+                                {companyDropDownLinks
+                                  .slice(5, 9)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="col-span-1">
+                            <h4 className="font-medium text-green-400 mb-2">
+                              Trading Excellence
+                            </h4>
+                            <p className="text-sm text-gray-300">
+                              With 15+ years in the market, we provide
+                              innovative trading solutions to clients worldwide.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+
+                  <li className="relative group">
+                    <button
+                      className="flex items-center text-sm text-white hover:text-blue-400 transition-colors font-medium"
+                      onClick={() => toggleDropdown('tools')}
+                    >
+                      TOOLS
+                      <ChevronDown
+                        className={`ml-1 h-4 w-4 transition-transform ${
+                          activeDropdown === 'tools' ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+
+                    {activeDropdown === 'tools' && (
+                      <div className="absolute top-full -right-0 mt-2 w-[700px] bg-gray-900 border border-gray-800/40 p-6">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-2 grid grid-cols-2 gap-4">
+                            <div>
+                              <h4 className="font-medium text-blue-400 mb-3">
+                                TRADING TOOLS
+                              </h4>
+                              <ul className="space-y-2">
+                                {marketDropDownLinks
+                                  .slice(0, 4)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-blue-400 mb-3">
+                                PLATFORMS
+                              </h4>
+                              <ul className="space-y-2">
+                                {marketDropDownLinks
+                                  .slice(4, 8)
+                                  .map((link, i) => (
+                                    <li>
+                                      <Link
+                                        key={i}
+                                        to={link.to}
+                                        className="text-white hover:text-blue-400 transition-colors"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    </li>
+                                  ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="col-span-1">
+                            <h4 className="font-medium text-green-400 mb-2">
+                              Advanced AI Tools
+                            </h4>
+                            <p className="text-sm text-gray-300">
+                              Our AI-powered trading tools help you analyze
+                              markets and execute trades with precision.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                </ul>
+              </nav>
             </div>
           )}
-        </nav>
-
-        {/* Mobile Menu Dialog */}
-        <Dialog
-          as="div"
-          className="lg:hidden"
-          open={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
-        >
-          <div className="fixed inset-0 z-10"></div>
-          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <Link to="/">
-                <img className="h-8 w-auto mb-5" src={logo} alt="logo" />
-              </Link>
-
-              <button
-                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="sr-only">Close menu</span>
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <MenuList items={menuItems} />
-            {user && <MenuList items={dashboard} />}
-            {!user && <MenuList items={auth} />}
-          </Dialog.Panel>
-        </Dialog>
-      </header>
-    </>
+        </div>
+      </div>
+    </header>
   );
 }
