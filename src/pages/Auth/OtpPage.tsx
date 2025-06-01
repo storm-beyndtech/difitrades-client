@@ -1,4 +1,4 @@
-import OTPVerification from '@/components/OTP';
+import OTPVerification from '@/components/OTPVerification';
 import { useLocation } from 'react-router-dom';
 
 export default function OtpPage() {
