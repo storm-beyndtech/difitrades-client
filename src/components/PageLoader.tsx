@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/loader-logo.png';
 import { SiSpinrilla } from 'react-icons/si';
 
 const PageLoader: React.FC = () => {
