@@ -112,7 +112,7 @@ const OTPVerification: React.FC<OTPVerificationProps> = ({
         return {
           title: 'Verify Your Account',
           description: `Enter the verification code we sent to ${maskedContact}`,
-          successMessage: 'Account verified successfully!',
+          successMessage: 'Request successfully sent!',
           errorMessage: 'Invalid verification code. Please try again.',
           redirectUrl: '/login',
           redirectText: 'Proceed to Login',
