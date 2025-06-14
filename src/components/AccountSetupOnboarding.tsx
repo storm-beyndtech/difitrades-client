@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Alert from './ui/Alert';
 import GTranslateProvider from './ui/GTranslateProvider';
 import { contextData } from '@/context/AuthContext';
+import { countries } from '@/lib/countries';
 
 // Types for our form sections
 type FormSection = {
@@ -58,8 +59,8 @@ const AccountSetupOnboarding = () => {
           value: '',
         },
         {
-          id: 'surname',
-          label: 'Surname/Lastname',
+          id: 'lastName',
+          label: 'Last Name',
           type: 'text',
           required: true,
           value: '',
@@ -113,6 +114,14 @@ const AccountSetupOnboarding = () => {
           type: 'text',
           required: true,
           value: '',
+        },
+        {
+          id: 'country',
+          label: 'Country',
+          type: 'select',
+          required: true,
+          value: '',
+          options: countries.map((country) => country.name),
         },
         {
           id: 'phoneNo',
@@ -239,9 +248,10 @@ const AccountSetupOnboarding = () => {
         {
           id: 'taxResidency',
           label: 'Country of Tax Residency',
-          type: 'text',
+          type: 'select',
           required: true,
           value: 'United States',
+          options: countries.map((country) => country.name),
         },
       ],
     },
@@ -266,6 +276,22 @@ const AccountSetupOnboarding = () => {
     );
     if (fieldIndex !== -1) {
       updatedSections[sectionIndex].fields[fieldIndex].value = value;
+
+      // Auto-populate tax residency when country is selected
+      if (fieldId === 'country' && value) {
+        const taxResidencySection = updatedSections.find(
+          (section) => section.id === 'annual-earnings',
+        );
+        if (taxResidencySection) {
+          const taxResidencyField = taxResidencySection.fields.find(
+            (field) => field.id === 'taxResidency',
+          );
+          if (taxResidencyField) {
+            taxResidencyField.value = value;
+          }
+        }
+      }
+
       setFormSections(updatedSections);
     }
   };
