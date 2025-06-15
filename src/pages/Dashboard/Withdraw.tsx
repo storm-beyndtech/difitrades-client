@@ -25,7 +25,7 @@ export default function Withdraw() {
   const { user } = contextData();
 
   // Get withdrawal limits from user object
-  const minWithdrawal = user.minWithdrawal
+  const minWithdrawal = user.minWithdrawal;
   const userWithdrawalLimit = user.withdrawalLimit || 0;
   const withdrawalStatus = user.withdrawalStatus || false;
 
@@ -59,6 +59,11 @@ export default function Withdraw() {
       return setError(
         'Withdrawals are currently disabled for your account. Please contact support.',
       );
+    }
+
+    // Validate user deposit balance
+    if (amount > user.deposit + user.interest) {
+      return setError(`Insufficient Balance`);
     }
 
     // Validate withdrawal limits
