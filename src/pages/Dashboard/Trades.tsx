@@ -7,6 +7,7 @@ import SmallStockChart from '@/components/SmallStockChart';
 import CopyTraderErrorModal from '@/components/CopyTraderErrorModal';
 import { useNavigate } from 'react-router-dom';
 import { Trader } from '@/types/types';
+import { ranks } from './Ranking';
 
 export default function Trades() {
   const [tradeData, setTradeData] = useState<any>([]);
@@ -25,8 +26,10 @@ export default function Trades() {
 
   const fetchTrades = async () => {
     try {
-    const res = await fetch(`${url}/trades/user/${user._id}/trader/${user.traderId}`);
-    const data = await res.json();
+      const res = await fetch(
+        `${url}/trades/user/${user._id}/trader/${user.traderId}`,
+      );
+      const data = await res.json();
 
       if (res.ok) {
         const filteredTrades = data.filter(
@@ -60,6 +63,15 @@ export default function Trades() {
       if (trader.minimumCopyAmount > user.deposit && action !== 'uncopy') {
         handleCopyError(
           `Insufficient balance. You need at least $${trader.minimumCopyAmount} to copy this trader.`,
+        );
+        return false;
+      }
+
+      // Check if user has sufficient deposit based on their rank
+      const userRank = ranks.find((r) => r.name === user.rank) || ranks[0];
+      if (user.deposit <= userRank.minimumDeposit) {
+        handleCopyError(
+          `You need at least $${userRank.minimumDeposit} to copy this trader based on your rank (${userRank.name}).`,
         );
         return false;
       }

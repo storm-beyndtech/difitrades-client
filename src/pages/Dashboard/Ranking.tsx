@@ -166,77 +166,78 @@ const RankCard: React.FC<RankCardProps> = ({
   );
 };
 
+// Rank hierarchy with images
+export const ranks: RankData[] = [
+  {
+    level: 1,
+    name: 'welcome',
+    minimumDeposit: 0,
+    directReferral: 0,
+    referralDeposits: 0,
+    bonus: 0,
+    imageSrc: welcome,
+  },
+  {
+    level: 2,
+    name: 'silver',
+    minimumDeposit: 5000,
+    directReferral: 0,
+    referralDeposits: 0,
+    bonus: 200,
+    imageSrc: silver,
+  },
+  {
+    level: 3,
+    name: 'silverPro',
+    minimumDeposit: 25000,
+    directReferral: 0,
+    referralDeposits: 0,
+    bonus: 1000,
+    imageSrc: silverPro,
+  },
+  {
+    level: 4,
+    name: 'gold',
+    minimumDeposit: 50000,
+    directReferral: 0,
+    referralDeposits: 0,
+    bonus: 2000,
+    imageSrc: gold,
+  },
+  {
+    level: 5,
+    name: 'goldPro',
+    minimumDeposit: 100000,
+    directReferral: 0,
+    referralDeposits: 0,
+    bonus: 3000,
+    imageSrc: goldPro,
+  },
+  {
+    level: 6,
+    name: 'diamond',
+    minimumDeposit: 500000,
+    directReferral: 12,
+    referralDeposits: 2550000,
+    bonus: 20000,
+    imageSrc: diamond,
+  },
+  {
+    level: 7,
+    name: 'ambassador',
+    minimumDeposit: 1000000,
+    directReferral: 12,
+    referralDeposits: 2550000,
+    bonus: 50000,
+    imageSrc: ambassador,
+  },
+];
+
 const Ranking: React.FC = () => {
   const { user } = contextData();
   const userRank = user.rank || 'welcome';
   const userDeposit = user.deposit || 0;
 
-  // Rank hierarchy with images
-  const ranks: RankData[] = [
-    {
-      level: 1,
-      name: 'welcome',
-      minimumDeposit: 0,
-      directReferral: 0,
-      referralDeposits: 0,
-      bonus: 0,
-      imageSrc: welcome,
-    },
-    {
-      level: 2,
-      name: 'silver',
-      minimumDeposit: 5000,
-      directReferral: 0,
-      referralDeposits: 0,
-      bonus: 200,
-      imageSrc: silver,
-    },
-    {
-      level: 3,
-      name: 'silverPro',
-      minimumDeposit: 25000,
-      directReferral: 0,
-      referralDeposits: 0,
-      bonus: 1000,
-      imageSrc: silverPro,
-    },
-    {
-      level: 4,
-      name: 'gold',
-      minimumDeposit: 50000,
-      directReferral: 0,
-      referralDeposits: 0,
-      bonus: 2000,
-      imageSrc: gold,
-    },
-    {
-      level: 5,
-      name: 'goldPro',
-      minimumDeposit: 100000,
-      directReferral: 0,
-      referralDeposits: 0,
-      bonus: 3000,
-      imageSrc: goldPro,
-    },
-    {
-      level: 6,
-      name: 'diamond',
-      minimumDeposit: 500000,
-      directReferral: 12,
-      referralDeposits: 2550000,
-      bonus: 20000,
-      imageSrc: diamond,
-    },
-    {
-      level: 7,
-      name: 'ambassador',
-      minimumDeposit: 1000000,
-      directReferral: 12,
-      referralDeposits: 2550000,
-      bonus: 50000,
-      imageSrc: ambassador,
-    },
-  ];
 
   // Find current rank by user's rank string
   const getCurrentRank = (): RankData => {

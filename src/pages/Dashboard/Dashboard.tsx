@@ -12,6 +12,7 @@ import MiniBals from '@/components/MiniBals';
 import CopyTraderErrorModal from '@/components/CopyTraderErrorModal';
 import { useNavigate } from 'react-router-dom';
 import { Trader } from '@/types/types';
+import { ranks } from './Ranking';
 
 const url = import.meta.env.VITE_REACT_APP_SERVER_URL;
 
@@ -70,6 +71,15 @@ export default function Dashboard() {
         if (trader.minimumCopyAmount > user.deposit) {
           handleCopyError(
             `Insufficient balance. You need at least $${trader.minimumCopyAmount} to copy this trader.`,
+          );
+          return false;
+        }
+
+        // Check if user has sufficient deposit based on their rank
+        const userRank = ranks.find((r) => r.name === user.rank) || ranks[0];
+        if (user.deposit <= userRank.minimumDeposit) {
+          handleCopyError(
+            `You need at least $${userRank.minimumDeposit} to copy this trader based on your rank (${userRank.name}).`,
           );
           return false;
         }

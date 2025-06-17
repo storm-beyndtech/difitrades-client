@@ -48,7 +48,7 @@ import Transactions from './pages/Dashboard/Transactions';
 import TechnicalInsight from './pages/Dashboard/TechnicalInsight';
 import TradingCourses from './pages/Dashboard/TradingCourses';
 import EconomicCalendar from './pages/Dashboard/EconomicCalendar';
-import Ranking from './pages/Dashboard/Ranking';
+import Ranking, { ranks } from './pages/Dashboard/Ranking';
 import Settings from './pages/Dashboard/Settings';
 import KYC from './pages/Dashboard/KYC';
 import LoginHistory from './pages/Dashboard/LoginHistory';
@@ -110,11 +110,20 @@ function App() {
   const copyTrader = async (trader: Trader) => {
     try {
       const action = trader._id === copiedTraderId ? 'uncopy' : 'copy';
-      
+
       // Check minimum copy amount requirement
       if (trader.minimumCopyAmount > user.deposit && action !== 'uncopy') {
         handleCopyError(
           `Insufficient balance. You need at least $${trader.minimumCopyAmount} to copy this trader.`,
+        );
+        return false;
+      }
+
+      // Check if user has sufficient deposit based on their rank
+      const userRank = ranks.find((r) => r.name === user.rank) || ranks[0];
+      if (user.deposit <= userRank.minimumDeposit) {
+        handleCopyError(
+          `You need at least $${userRank.minimumDeposit} to copy this trader based on your rank (${userRank.name}).`,
         );
         return false;
       }
